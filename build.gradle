@@ -51,6 +51,7 @@ jar {
 	from("LICENSE") {
 		rename { "${it}_${project.base.archivesName.get()}"}
 	}
+	exclude 'com/mikitellurium/telluriumforge/test/**'
 }
 
 // configure the maven publication
