@@ -17,6 +17,9 @@
 	"entrypoints": {
 		"main": [
           "com.mikitellurium.telluriumforge.TelluriumForge"
+		],
+		"modmenu": [
+			"com.mikitellurium.telluriumforge.test.modmenu.ModMenuImpl"
 		]
 	},
 	"mixins": [
