@@ -7,10 +7,15 @@ import org.slf4j.LoggerFactory;
 
 public class TelluriumForge implements ModInitializer {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger("telluriumforge");
+    private static final Logger LOGGER = LoggerFactory.getLogger("telluriumforge");
 
 	@Override
 	public void onInitialize() {
 
 	}
+
+	public static Logger logger() {
+		return LOGGER;
+	}
+
 }
