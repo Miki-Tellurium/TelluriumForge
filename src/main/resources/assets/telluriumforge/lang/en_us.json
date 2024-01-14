@@ -1,0 +1,8 @@
+{
+  "option.telluriumforge.enum_config": "TestEnum",
+  "option.telluriumforge.boolean_config": "Boolean Config",
+  "option.telluriumforge.boolean_config.enabled": "Enabled",
+  "option.telluriumforge.boolean_config.disabled": "Disabled",
+  "option.telluriumforge.int_config": "Integer Config",
+  "option.telluriumforge.int_config.tooltip": "This is the Int Config tooltip"
+}
