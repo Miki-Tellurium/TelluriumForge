@@ -1,6 +1,7 @@
 package com.mikitellurium.telluriumforge;
 
 import com.mikitellurium.telluriumforge.test.ExampleConfig;
+import com.mikitellurium.telluriumforge.test.TestEvents;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
@@ -18,7 +19,7 @@ public class TelluriumForge implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		ServerEntityEvents.ENTITY_LOAD.register(ExampleConfig::onWorldPlayerJoin);
+		TestEvents.registerEvents();
 		ExampleConfig.buildConfig();
 	}
 
