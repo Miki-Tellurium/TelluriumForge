@@ -9,6 +9,8 @@ import java.util.function.Consumer;
 
 public abstract class ConfigOption<T> {
 
+    // todo: add docs for config options
+
     private final String translationKey;
     private final String tooltipKey;
     private final TelluriumConfig.ConfigEntry<T> config;
