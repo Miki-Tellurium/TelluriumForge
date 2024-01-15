@@ -6,27 +6,28 @@ import net.minecraft.client.option.SimpleOption;
 import net.minecraft.util.Identifier;
 
 /**
- * A concrete subclass of ConfigOption representing an integer configuration option.
- * IntConfigOption is specifically designed to work with {@link TelluriumConfig.RangedConfigEntry} for integer values.
+ * A concrete subclass of {@link ConfigOption} representing an integer configuration option.
+ * {@code IntConfigOption} is specifically designed to work with {@link TelluriumConfig.RangedConfigEntry}
+ * for integer values.
  */
 public class IntConfigOption extends ConfigOption<Integer> {
 
     /**
-     * Constructs a ConfigOption for the given {@link TelluriumConfig.RangedConfigEntry}.
-     * The Identifier is used to generate the text and tooltip
+     * Constructs a {@link ConfigOption} for the given {@link TelluriumConfig.RangedConfigEntry}.
+     * The {@code Identifier} is used to generate the text and tooltip
      * translation keys for this option.
      *
-     * @param identifier The identifier for the configuration option
-     * @param config     The ranged configuration entry associated with the option
+     * @param identifier The {@code Identifier} for the configuration option
+     * @param config     The {@link TelluriumConfig.RangedConfigEntry} associated with the option
      */
     public IntConfigOption(Identifier identifier, TelluriumConfig.RangedConfigEntry<Integer> config) {
         super(identifier, config);
     }
 
     /**
-     * Overrides the {@link ConfigOption#getConfig} method to provide a more specific return type.
+     * Overrides the {@link ConfigOption#getConfig()} method to provide a more specific return type.
      *
-     * @return The ranged configuration entry associated with the option
+     * @return The {@link TelluriumConfig.RangedConfigEntry} associated with the option
      */
     @Override
     public TelluriumConfig.RangedConfigEntry<Integer> getConfig() {
@@ -34,9 +35,9 @@ public class IntConfigOption extends ConfigOption<Integer> {
     }
 
     /**
-     * Converts the IntConfigOption to a SimpleOption representing a UI option for the integer configuration.
+     * Converts the {@code IntConfigOption} to a {@code SimpleOption} representing a UI option for the integer configuration.
      *
-     * @return The SimpleOption for the integer configuration option
+     * @return The {@code SimpleOption} for the {@code IntConfigOption}
      */
     @Override
     public SimpleOption<Integer> asOption() {

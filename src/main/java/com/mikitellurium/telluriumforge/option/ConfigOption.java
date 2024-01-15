@@ -10,33 +10,33 @@ import java.util.function.Consumer;
 /**
  * A base abstract class representing a configuration option.
  * Concrete subclasses are expected to provide specific
- * implementations for creating a UI option for the configuration.
+ * implementations for creating a UI option for the {@link TelluriumConfig.ConfigEntry}.
  *
- * @param <T> The type of the configuration value.
+ * @param <T> The type of the configuration value
  */
 public abstract class ConfigOption<T> {
 
     /**
-     * The translation key for the configuration option.
+     * The translation key for the {@code ConfigOption} name.
      */
     private final String translationKey;
 
     /**
-     * The translation key for the tooltip associated with the configuration option.
+     * The translation key for the tooltip associated with the {@code ConfigOption}.
      */
     private final String tooltipKey;
 
     /**
-     * The configuration entry associated with the option.
+     * The {@link TelluriumConfig.ConfigEntry} associated with the {@code ConfigOption}.
      */
     private final TelluriumConfig.ConfigEntry<T> config;
 
     /**
-     * Constructs a ConfigOption for the given {@link TelluriumConfig.ConfigEntry}.
-     * The Identifier is used to generate the text and tooltip
+     * Constructs a {@code ConfigOption} for the given {@link TelluriumConfig.ConfigEntry}.
+     * The {@code Identifier} is used to generate the text and tooltip
      * translation keys for this option.
      *
-     * @param identifier The identifier for the configuration option
+     * @param identifier The {@code Identifier} for the configuration option
      * @param config     The configuration entry associated with the option
      */
     public ConfigOption(Identifier identifier, TelluriumConfig.ConfigEntry<T> config) {
@@ -46,7 +46,7 @@ public abstract class ConfigOption<T> {
     }
 
     /**
-     * Gets the translation key for the name of the configuration option.
+     * Gets the translation key for the name of the {@code ConfigOption}.
      *
      * @return The translation key
      */
@@ -55,7 +55,7 @@ public abstract class ConfigOption<T> {
     }
 
     /**
-     * Gets the translation key for the tooltip associated with the configuration option.
+     * Gets the translation key for the tooltip associated with the {@code ConfigOption}.
      *
      * @return The tooltip translation key
      */
@@ -64,16 +64,16 @@ public abstract class ConfigOption<T> {
     }
 
     /**
-     * Gets the {@link TelluriumConfig.ConfigEntry} associated with the option.
+     * Gets the {@link TelluriumConfig.ConfigEntry} associated with the {@code ConfigOption}.
      *
-     * @return The configuration entry
+     * @return The {@link TelluriumConfig.ConfigEntry}
      */
     public TelluriumConfig.ConfigEntry<T> getConfig() {
         return config;
     }
 
     /**
-     * Gets the default value for the configuration option.
+     * Gets the default value for the {@code ConfigOption}.
      *
      * @return The default value
      */
@@ -82,7 +82,7 @@ public abstract class ConfigOption<T> {
     }
 
     /**
-     * Gets the tooltip factory for creating the tooltip associated with the configuration option.
+     * Gets the tooltip factory for creating the tooltip associated with the {@code ConfigOption}.
      * The default implementation returns a translation if one is set for the tooltip key or an
      * empty tooltip if a translation is not present.
      *
@@ -94,7 +94,7 @@ public abstract class ConfigOption<T> {
     }
 
     /**
-     * Gets the change callback for handling changes to the configuration value.
+     * Gets the change callback for handling changes to the {@link TelluriumConfig.ConfigEntry} value.
      *
      * @return The change callback
      */
@@ -103,9 +103,9 @@ public abstract class ConfigOption<T> {
     }
 
     /**
-     * Converts the ConfigOption to a SimpleOption representing a UI option for the configuration.
+     * Converts the {@code ConfigOption} to a {@code SimpleOption} representing a UI option for the configuration.
      *
-     * @return The SimpleOption for the configuration option
+     * @return The {@code SimpleOption} for the configuration option
      */
     public abstract SimpleOption<T> asOption();
 

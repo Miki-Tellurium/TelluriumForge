@@ -16,7 +16,7 @@ public class CachedObject<T> implements Supplier<T> {
     private final T obj;
 
     /**
-     * Constructs a CachedObject with a non-null object.
+     * Constructs a {@code CachedObject} with a non-null object.
      *
      * @param obj The non-null object to be cached
      */
@@ -25,26 +25,26 @@ public class CachedObject<T> implements Supplier<T> {
     }
 
     /**
-     * Constructs an empty CachedObject
+     * Constructs an empty {@code CachedObject}
      */
     private CachedObject() {
         this.obj = null;
     }
 
     /**
-     * Static factory method to create a CachedObject with a specified object.
+     * Static factory method to create a {@code CachedObject} with a specified object.
      *
      * @param obj The object to be cached
-     * @return A CachedObject containing the specified object
+     * @return A {@code CachedObject} containing the specified object
      */
     public static CachedObject<?> of(Object obj) {
         return new CachedObject<>(obj);
     }
 
     /**
-     * Static factory method to create an empty CachedObject.
+     * Static factory method to create an empty {@code CachedObject}.
      *
-     * @return An empty CachedObject
+     * @return An empty {@code CachedObject}
      */
     public static CachedObject<?> empty() {
         return new CachedObject<>();
@@ -53,7 +53,7 @@ public class CachedObject<T> implements Supplier<T> {
     /**
      * Retrieves the cached object.
      *
-     * @return The cached object, which may be null for an empty CachedObject
+     * @return The cached object, which may be null for an empty {@code CachedObject}
      */
     @Override
     public T get() {
@@ -61,18 +61,18 @@ public class CachedObject<T> implements Supplier<T> {
     }
 
     /**
-     * Checks if the CachedObject is empty.
+     * Checks if the {@code CachedObject} is empty.
      *
-     * @return true if the CachedObject is empty (contains null), otherwise false
+     * @return true if the {@code CachedObject} is empty (contains null), otherwise false
      */
     public boolean isEmpty() {
         return this.obj == null;
     }
 
     /**
-     * Checks if the CachedObject is non-empty.
+     * Checks if the {@code CachedObject} is non-empty.
      *
-     * @return true if the CachedObject is non-empty (contains a non-null object), otherwise false
+     * @return true if the {@code CachedObject} is non-empty (contains a non-null object), otherwise false
      */
     public boolean isPresent() {
         return !isEmpty();

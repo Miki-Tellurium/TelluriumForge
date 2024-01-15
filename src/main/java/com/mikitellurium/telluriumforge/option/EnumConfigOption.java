@@ -11,26 +11,26 @@ import java.util.Arrays;
 import java.util.Locale;
 
 /**
- * A concrete subclass of ConfigOption representing an enumeration configuration option.
- * EnumConfigOption is specifically designed to work with {@link TelluriumConfig.EnumConfigEntry}
- * for enumeration values.
+ * A concrete subclass of {@link ConfigOption} representing an enum configuration option.
+ * {@code EnumConfigOption} is specifically designed to work with {@link TelluriumConfig.EnumConfigEntry}
+ * for enum values.
  *
- * @param <E> The type of the enumeration.
+ * @param <E> The type of the enum
  */
 public class EnumConfigOption<E extends Enum<E>> extends ConfigOption<E> {
 
     /**
-     * The class representing the enumeration type.
+     * The class representing the enum type.
      */
     private final Class<E> clazz;
 
     /**
-     * Constructs a ConfigOption for the given {@link TelluriumConfig.EnumConfigEntry}.
-     * The Identifier is used to generate the text and tooltip
+     * Constructs a {@link ConfigOption} for the given {@link TelluriumConfig.EnumConfigEntry}.
+     * The {@code Identifier} is used to generate the text and tooltip
      * translation keys for this option.
      *
-     * @param identifier The identifier for the configuration option
-     * @param config     The enumeration configuration entry associated with the option
+     * @param identifier The {@code Identifier} for the configuration option
+     * @param config     The enum configuration entry associated with the option
      */
     public EnumConfigOption(Identifier identifier, TelluriumConfig.EnumConfigEntry<E> config) {
         super(identifier, config);
@@ -38,9 +38,9 @@ public class EnumConfigOption<E extends Enum<E>> extends ConfigOption<E> {
     }
 
     /**
-     * Overrides the getConfig method to provide a more specific return type.
+     * Overrides the {@link ConfigOption#getConfig()} method to provide a more specific return type.
      *
-     * @return The enumeration configuration entry associated with the option
+     * @return The {@link TelluriumConfig.EnumConfigEntry} associated with the option
      */
     @Override
     public TelluriumConfig.EnumConfigEntry<E> getConfig() {
@@ -48,9 +48,9 @@ public class EnumConfigOption<E extends Enum<E>> extends ConfigOption<E> {
     }
 
     /**
-     * Converts the EnumConfigOption to a SimpleOption representing a UI option for the enumeration configuration.
+     * Converts the {@code EnumConfigOption} to a {@code SimpleOption} representing a UI option for the enum configuration.
      *
-     * @return The SimpleOption for the enumeration configuration option
+     * @return The {@code SimpleOption} for the {@code EnumConfigOption}
      */
     @Override
     public SimpleOption<E> asOption() {
