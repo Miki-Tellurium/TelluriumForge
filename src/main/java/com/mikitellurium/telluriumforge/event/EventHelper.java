@@ -9,7 +9,9 @@ public class EventHelper {
 
     private final List<EventRegistration<?>> events = new ArrayList<>();
 
-    public static final EventHelper INSTANCE = new EventHelper();
+    public static EventHelper getInstance() {
+        return new EventHelper();
+    }
 
     private EventHelper() {}
 
