@@ -1,6 +1,6 @@
 package com.mikitellurium.telluriumforge.option;
 
-import com.mikitellurium.telluriumforge.config.TelluriumConfig;
+import com.mikitellurium.telluriumforge.config.ConfigEntry;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 /**
  * A base abstract class representing a configuration option.
  * Concrete subclasses are expected to provide specific
- * implementations for creating a UI option for the {@link TelluriumConfig.ConfigEntry}.
+ * implementations for creating a UI option for the {@link ConfigEntry}.
  *
  * @param <T> The type of the configuration value
  */
@@ -27,19 +27,19 @@ public abstract class ConfigOption<T> {
     private final String tooltipKey;
 
     /**
-     * The {@link TelluriumConfig.ConfigEntry} associated with the {@code ConfigOption}.
+     * The {@link ConfigEntry} associated with the {@code ConfigOption}.
      */
-    private final TelluriumConfig.ConfigEntry<T> config;
+    private final ConfigEntry<T> config;
 
     /**
-     * Constructs a {@code ConfigOption} for the given {@link TelluriumConfig.ConfigEntry}.
+     * Constructs a {@code ConfigOption} for the given {@link ConfigEntry}.
      * The {@code Identifier} is used to generate the text and tooltip
      * translation keys for this option.
      *
      * @param identifier The {@code Identifier} for the configuration option
      * @param config     The configuration entry associated with the option
      */
-    public ConfigOption(Identifier identifier, TelluriumConfig.ConfigEntry<T> config) {
+    public ConfigOption(Identifier identifier, ConfigEntry<T> config) {
         this.translationKey = identifier.toTranslationKey("option");
         this.config = config;
         this.tooltipKey = this.translationKey + ".tooltip";
@@ -64,11 +64,11 @@ public abstract class ConfigOption<T> {
     }
 
     /**
-     * Gets the {@link TelluriumConfig.ConfigEntry} associated with the {@code ConfigOption}.
+     * Gets the {@link ConfigEntry} associated with the {@code ConfigOption}.
      *
-     * @return The {@link TelluriumConfig.ConfigEntry}
+     * @return The {@link ConfigEntry}
      */
-    public TelluriumConfig.ConfigEntry<T> getConfig() {
+    public ConfigEntry<T> getConfig() {
         return config;
     }
 
@@ -94,7 +94,7 @@ public abstract class ConfigOption<T> {
     }
 
     /**
-     * Gets the change callback for handling changes to the {@link TelluriumConfig.ConfigEntry} value.
+     * Gets the change callback for handling changes to the {@link ConfigEntry} value.
      *
      * @return The change callback
      */

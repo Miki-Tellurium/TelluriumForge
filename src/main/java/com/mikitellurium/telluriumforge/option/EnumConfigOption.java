@@ -1,18 +1,17 @@
 package com.mikitellurium.telluriumforge.option;
 
-import com.mikitellurium.telluriumforge.config.TelluriumConfig;
+import com.mikitellurium.telluriumforge.config.EnumConfigEntry;
 import com.mojang.serialization.Codec;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Locale;
 
 /**
  * A concrete subclass of {@link ConfigOption} representing an enum configuration option.
- * {@code EnumConfigOption} is specifically designed to work with {@link TelluriumConfig.EnumConfigEntry}
+ * {@code EnumConfigOption} is specifically designed to work with {@link EnumConfigEntry}
  * for enum values.
  *
  * @param <E> The type of the enum
@@ -25,14 +24,14 @@ public class EnumConfigOption<E extends Enum<E>> extends ConfigOption<E> {
     private final Class<E> clazz;
 
     /**
-     * Constructs a {@link ConfigOption} for the given {@link TelluriumConfig.EnumConfigEntry}.
+     * Constructs a {@link ConfigOption} for the given {@link EnumConfigEntry}.
      * The {@code Identifier} is used to generate the text and tooltip
      * translation keys for this option.
      *
      * @param identifier The {@code Identifier} for the configuration option
      * @param config     The enum configuration entry associated with the option
      */
-    public EnumConfigOption(Identifier identifier, TelluriumConfig.EnumConfigEntry<E> config) {
+    public EnumConfigOption(Identifier identifier, EnumConfigEntry<E> config) {
         super(identifier, config);
         this.clazz = config.getEnumClass();
     }
@@ -40,11 +39,11 @@ public class EnumConfigOption<E extends Enum<E>> extends ConfigOption<E> {
     /**
      * Overrides the {@link ConfigOption#getConfig()} method to provide a more specific return type.
      *
-     * @return The {@link TelluriumConfig.EnumConfigEntry} associated with the option
+     * @return The {@link EnumConfigEntry} associated with the option
      */
     @Override
-    public TelluriumConfig.EnumConfigEntry<E> getConfig() {
-        return (TelluriumConfig.EnumConfigEntry<E>) super.getConfig();
+    public EnumConfigEntry<E> getConfig() {
+        return (EnumConfigEntry<E>) super.getConfig();
     }
 
     /**
