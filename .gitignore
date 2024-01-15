@@ -39,3 +39,5 @@ replay_*.log
 *.hprof
 *.jfr
 /src/main/java/com/mikitellurium/telluriumforge/test/
+/gradle/
+/.github/
