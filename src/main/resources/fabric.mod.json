@@ -8,8 +8,8 @@
 		"Miki Tellurium"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://modrinth.com/user/Miki-Tellurium",
+		"sources": "https://github.com/Miki-Tellurium/TelluriumForge"
 	},
 	"license": "MIT License",
 	"icon": "assets/telluriumforge/icon.png",

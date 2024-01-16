@@ -30,6 +30,5 @@ public class TelluriumForge implements ModInitializer {
 	public static Logger logger() {
 		return LOGGER;
 	}
-	// todo networking
-	// todo add info to mod json
+
 }
