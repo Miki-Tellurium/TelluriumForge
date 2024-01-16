@@ -5,7 +5,7 @@ import net.minecraft.util.Identifier;
 /**
  * A base class used to make registration helpers.
  */
-public abstract class SimpleRegistrationHelper {
+public class SimpleRegistrationHelper {
 
     /**
      * The mod id associated with this {@code SimpleRegistrationHelper}.
