@@ -1,5 +1,6 @@
 package com.mikitellurium.telluriumforge.registry;
 
+import com.mikitellurium.telluriumforge.util.SimpleRegistrationHelper;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
@@ -18,18 +19,12 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
-import net.minecraft.util.Identifier;
 
 /**
  * The {@code RegistryHelper} class provides utility methods for registering various game elements
  * such as blocks, items, block entities, etc.
  */
-public class RegistryHelper {
-
-    /**
-     * The mod id associated with this {@code RegistryHelper}.
-     */
-    private final String modId;
+public class RegistryHelper extends SimpleRegistrationHelper {
 
     /**
      * Constructs a new {@code RegistryHelper} with the specified mod id.
@@ -38,7 +33,7 @@ public class RegistryHelper {
      * @param modId The mod identifier
      */
     public RegistryHelper(String modId) {
-        this.modId = modId;
+        super(modId);
     }
 
     /**
@@ -149,25 +144,6 @@ public class RegistryHelper {
         ScreenHandlerType<H> handlerTypeToReturn = Registry.register(Registries.SCREEN_HANDLER, getIdentifier(id), handler);
         HandledScreens.register(handlerTypeToReturn, screen);
         return handlerTypeToReturn;
-    }
-
-    /**
-     * Gets the mod id associated with this {@code RegistryHelper}.
-     *
-     * @return The mod id
-     */
-    public String getModId() {
-        return modId;
-    }
-
-    /**
-     * Creates an {@code Identifier} using the mod id and the specified id.
-     *
-     * @param id The id for the {@code Identifier}
-     * @return The created {@code Identifier}
-     */
-    public Identifier getIdentifier(String id) {
-        return new Identifier(modId, id);
     }
 
 }
