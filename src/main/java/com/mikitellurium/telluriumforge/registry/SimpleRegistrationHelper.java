@@ -1,4 +1,4 @@
-package com.mikitellurium.telluriumforge.util;
+package com.mikitellurium.telluriumforge.registry;
 
 import net.minecraft.util.Identifier;
 

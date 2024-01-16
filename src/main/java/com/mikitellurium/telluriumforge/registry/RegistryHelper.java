@@ -1,6 +1,5 @@
 package com.mikitellurium.telluriumforge.registry;
 
-import com.mikitellurium.telluriumforge.util.SimpleRegistrationHelper;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
