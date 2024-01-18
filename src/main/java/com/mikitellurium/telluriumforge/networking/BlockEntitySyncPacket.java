@@ -5,6 +5,13 @@ import net.fabricmc.fabric.api.networking.v1.PacketType;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.math.BlockPos;
 
+/**
+ * A basic class used to send packets for block entities data synchronization.
+ * <p>
+ * Implementations should store the packet type instance in a static final
+ * field and return that in the {@link #getType()} method implemented from
+ * the {@code FabricPacket} interface.
+ */
 public abstract class BlockEntitySyncPacket implements FabricPacket {
 
     /**
