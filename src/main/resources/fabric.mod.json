@@ -12,7 +12,7 @@
 		"sources": "https://github.com/Miki-Tellurium/TelluriumForge"
 	},
 	"license": "MIT License",
-	"icon": "assets/telluriumforge/icon.png",
+	"icon": "assets/telluriumforge/telluriumforge_icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
