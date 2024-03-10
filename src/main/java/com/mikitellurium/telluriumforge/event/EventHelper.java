@@ -16,19 +16,7 @@ public class EventHelper {
      */
     private final List<EventRegistration<?>> events = new ArrayList<>();
 
-    /**
-     * Private constructor to enforce singleton pattern. Use {@link #getInstance()} to obtain an instance.
-     */
-    private EventHelper() {}
-
-    /**
-     * Gets an instance of the {@code EventHelper}.
-     *
-     * @return An instance of the {@code EventHelper}
-     */
-    public static EventHelper getInstance() {
-        return new EventHelper();
-    }
+    public EventHelper() {}
 
     /**
      * Adds a listener for a specific event.
