@@ -1,4 +1,4 @@
-package com.mikitellurium.telluriumforge.networking;
+package com.mikitellurium.telluriumforge.networking.packet;
 
 import net.fabricmc.fabric.api.networking.v1.FabricPacket;
 import net.fabricmc.fabric.api.networking.v1.PacketType;
