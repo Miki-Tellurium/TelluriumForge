@@ -19,16 +19,20 @@ public class TelluriumConfig {
 
     private final Logger logger;
     /**
-     * The path of the config file
+     * The path of the config file.
      */
     private final String file;
+    /**
+     * The type of this config file.
+     */
+    private final Type type;
 
     /**
-     * List of the file comments
+     * List of the file comments.
      */
     private final List<String> comments = new ArrayList<>();
     /**
-     * List of the entries managed by this file
+     * List of the entries managed by this file.
      */
     private final List<ConfigEntry> entries = new ArrayList<>();
 
@@ -37,9 +41,11 @@ public class TelluriumConfig {
      * The instance manages a single config file, to make multiple
      * files use multiple instances.
      * @param fileName the name of the config file
+     * @param type the type of the config file
      */
-    public TelluriumConfig(String fileName) {
-        this.file = FabricLoader.getInstance().getConfigDir().resolve(fileName + fileExtension).toString();
+    public TelluriumConfig(String fileName, Type type) {
+        this.file = FabricLoader.getInstance().getConfigDir().resolve(fileName + "-" + type.getName() + fileExtension).toString();
+        this.type = type;
         this.logger = LoggerFactory.getLogger(fileName);
     }
 
@@ -50,6 +56,15 @@ public class TelluriumConfig {
      */
     public String getConfigFilePath() {
         return file;
+    }
+
+    /**
+     * Return the type of the config file.
+     *
+     * @return the config file type
+     */
+    public Type getType() {
+        return type;
     }
 
     /**
@@ -139,7 +154,7 @@ public class TelluriumConfig {
             // Write comments
             if (!comments.isEmpty()) {
                 for (String s : comments) {
-                    writer.write("#" + s + newline);
+                    writer.write("# " + s + newline);
                 }
             }
 
@@ -486,6 +501,22 @@ public class TelluriumConfig {
             return comments;
         }
 
+    }
+
+    public enum Type {
+        COMMON("common"),
+        CLIENT("client"),
+        SERVER("server");
+
+        private final String name;
+
+        Type(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
     }
 
 }
