@@ -30,16 +30,6 @@ public abstract class BlockEntitySyncPacket implements FabricPacket {
     }
 
     /**
-     * Construct a new packet using a {@code PacketByteBuf} containing
-     * the data used to synchronize the block entity.
-     *
-     * @param buf the {@code PacketByteBuf} containing the data
-     */
-    public BlockEntitySyncPacket(PacketByteBuf buf) {
-        this(buf.readBlockPos());
-    }
-
-    /**
      * Gets the {@code BlockPos} of the block entity stored
      * in this packet.
      *
