@@ -360,9 +360,9 @@ public class TelluriumConfig {
          * range (inclusive).
          *
          * @param key the name of the entry
+         * @param defaultValue the default value of the entry
          * @param minValue the minimum value this entry can have
          * @param maxValue the maximum value this entry can have
-         * @param defaultValue the default value of the entry
          * @return the entry that was created
          */
         public RangedConfigEntry<Integer> defineInRange(String key, int defaultValue, int minValue, int maxValue) {
@@ -393,9 +393,9 @@ public class TelluriumConfig {
          * range (inclusive).
          *
          * @param key the name of the entry
+         * @param defaultValue the default value of the entry
          * @param minValue the minimum value this entry can have
          * @param maxValue the maximum value this entry can have
-         * @param defaultValue the default value of the entry
          * @return the entry that was created
          */
         public RangedConfigEntry<Double> defineInRange(String key, double defaultValue, double minValue, double maxValue) {
@@ -426,9 +426,9 @@ public class TelluriumConfig {
          * range (inclusive).
          *
          * @param key the name of the entry
+         * @param defaultValue the default value of the entry
          * @param minValue the minimum value this entry can have
          * @param maxValue the maximum value this entry can have
-         * @param defaultValue the default value of the entry
          * @return the entry that was created
          */
         public RangedConfigEntry<Long> defineInRange(String key, long defaultValue, long minValue, long maxValue) {
