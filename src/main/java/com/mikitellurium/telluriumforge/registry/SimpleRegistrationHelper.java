@@ -12,16 +12,26 @@ public interface SimpleRegistrationHelper {
      *
      * @return The mod id
      */
-    String getModId();
+    String modId();
 
     /**
-     * Creates an {@code Identifier} using the mod id and the specified id.
+     * Creates an {@code Identifier} using the mod id and the specified path.
      *
-     * @param id The id for the {@code Identifier}
+     * @param path The path for the {@code Identifier}
      * @return The created {@code Identifier}
      */
-    default Identifier getIdentifier(String id) {
-        return new Identifier(this.getModId(), id);
+    default Identifier modId(String path) {
+        return new Identifier(this.modId(), path);
+    }
+
+    /**
+     * Creates an {@code Identifier} using the "minecraft" namespace and the specified path.
+     *
+     * @param path The path for the {@code Identifier}
+     * @return The created {@code Identifier}
+     */
+    default Identifier mcId(String path) {
+        return new Identifier(path);
     }
 
 }
