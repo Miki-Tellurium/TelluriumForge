@@ -40,6 +40,16 @@ public class NetworkingHelper {
     }
 
     /**
+     * Sends a packet to a specific player.
+     *
+     * @param player The player to send the packet to
+     * @param packet The packet to send
+     */
+    public static void sendToClient(ServerPlayerEntity player, FabricPacket packet) {
+        ServerPlayNetworking.send(player, packet);
+    }
+
+    /**
      * Sends a packet to all players tracking a specific block position in the given world.
      *
      * @param world  The {@code ServerWorld}
