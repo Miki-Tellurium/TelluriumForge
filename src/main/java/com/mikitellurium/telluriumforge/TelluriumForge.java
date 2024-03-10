@@ -16,10 +16,6 @@ public class TelluriumForge implements ModInitializer, SimpleRegistrationHelper 
 
 	@Override
 	public String modId() {
-		return null;
-	}
-
-	public String modId() {
 		return MOD_ID;
 	}
 
