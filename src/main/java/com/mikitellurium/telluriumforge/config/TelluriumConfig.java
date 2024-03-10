@@ -365,8 +365,8 @@ public class TelluriumConfig {
          * @param defaultValue the default value of the entry
          * @return the entry that was created
          */
-        public RangedConfigEntry<Integer> defineInRange(String key, int minValue, int maxValue, int defaultValue) {
-            RangedConfigEntry<Integer> newEntry = new RangedConfigEntry<>(parent, key, minValue, maxValue, defaultValue);
+        public RangedConfigEntry<Integer> defineInRange(String key, int defaultValue, int minValue, int maxValue) {
+            RangedConfigEntry<Integer> newEntry = new RangedConfigEntry<>(parent, key, defaultValue, minValue, maxValue);
             entries.add(newEntry);
             this.buildEntry(newEntry);
             return newEntry;
@@ -398,8 +398,8 @@ public class TelluriumConfig {
          * @param defaultValue the default value of the entry
          * @return the entry that was created
          */
-        public RangedConfigEntry<Double> defineInRange(String key, double minValue, double maxValue, double defaultValue) {
-            RangedConfigEntry<Double> newEntry = new RangedConfigEntry<>(parent, key, minValue, maxValue, defaultValue);
+        public RangedConfigEntry<Double> defineInRange(String key, double defaultValue, double minValue, double maxValue) {
+            RangedConfigEntry<Double> newEntry = new RangedConfigEntry<>(parent, key, defaultValue, minValue, maxValue);
             entries.add(newEntry);
             this.buildEntry(newEntry);
             return newEntry;
@@ -431,8 +431,8 @@ public class TelluriumConfig {
          * @param defaultValue the default value of the entry
          * @return the entry that was created
          */
-        public RangedConfigEntry<Long> defineInRange(String key, long minValue, long maxValue, long defaultValue) {
-            RangedConfigEntry<Long> newEntry = new RangedConfigEntry<>(parent, key, minValue, maxValue, defaultValue);
+        public RangedConfigEntry<Long> defineInRange(String key, long defaultValue, long minValue, long maxValue) {
+            RangedConfigEntry<Long> newEntry = new RangedConfigEntry<>(parent, key, defaultValue, minValue, maxValue);
             entries.add(newEntry);
             this.buildEntry(newEntry);
             return newEntry;

@@ -12,7 +12,7 @@ public class RangedConfigEntry<N extends Number> extends ConfigEntry<N> {
     private final N minValue;
     private final N maxValue;
 
-    protected RangedConfigEntry(TelluriumConfig parent, String key, N minValue, N maxValue, N defaultValue) {
+    protected RangedConfigEntry(TelluriumConfig parent, String key, N defaultValue, N minValue, N maxValue) {
         super(parent, key, defaultValue);
         this.minValue = minValue;
         this.maxValue = maxValue;
