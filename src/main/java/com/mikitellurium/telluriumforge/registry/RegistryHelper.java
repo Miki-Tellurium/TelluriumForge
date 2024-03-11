@@ -50,7 +50,7 @@ public class RegistryHelper implements SimpleRegistrationHelper {
      * @return The registered block
      */
     public Block registerBlock(String path, Block block) {
-        return Registry.register(Registries.BLOCK, modId(path), block);
+        return Registry.register(Registries.BLOCK, modIdentifier(path), block);
     }
 
     /**
@@ -74,7 +74,7 @@ public class RegistryHelper implements SimpleRegistrationHelper {
      * @return The registered item
      */
     public Item registerItem(String path, Item item) {
-        return Registry.register(Registries.ITEM, modId(path), item);
+        return Registry.register(Registries.ITEM, modIdentifier(path), item);
     }
 
     /**
@@ -85,7 +85,7 @@ public class RegistryHelper implements SimpleRegistrationHelper {
      * @return The registered block entity type
      */
     public <T extends BlockEntity> BlockEntityType<T> registerBlockEntity(String path, BlockEntityType<T> blockEntity) {
-        return Registry.register(Registries.BLOCK_ENTITY_TYPE, modId(path), blockEntity);
+        return Registry.register(Registries.BLOCK_ENTITY_TYPE, modIdentifier(path), blockEntity);
     }
 
     /**
@@ -96,7 +96,7 @@ public class RegistryHelper implements SimpleRegistrationHelper {
      * @return The registered item group
      */
     public ItemGroup registerItemGroup(String path, ItemGroup itemGroup) {
-        return Registry.register(Registries.ITEM_GROUP, modId(path), itemGroup);
+        return Registry.register(Registries.ITEM_GROUP, modIdentifier(path), itemGroup);
     }
 
     /**
@@ -107,7 +107,7 @@ public class RegistryHelper implements SimpleRegistrationHelper {
      * @return The registered entity type
      */
     public <T extends Entity> EntityType<T> registerEntity(String path, EntityType<T> entity) {
-        return Registry.register(Registries.ENTITY_TYPE, modId(path), entity);
+        return Registry.register(Registries.ENTITY_TYPE, modIdentifier(path), entity);
     }
 
     /**
@@ -118,7 +118,7 @@ public class RegistryHelper implements SimpleRegistrationHelper {
      * @return The registered enchantment
      */
     public Enchantment registerEnchantment(String path, Enchantment enchantment) {
-        return Registry.register(Registries.ENCHANTMENT, modId(path), enchantment);
+        return Registry.register(Registries.ENCHANTMENT, modIdentifier(path), enchantment);
     }
 
     /**
@@ -131,7 +131,7 @@ public class RegistryHelper implements SimpleRegistrationHelper {
      * @return The registered tag key
      */
     public <T, R extends Registry<T>> TagKey<T> registerTag(RegistryKey<R> tagRegistry, String path) {
-        return TagKey.of(tagRegistry, modId(path));
+        return TagKey.of(tagRegistry, modIdentifier(path));
     }
 
     /**
@@ -147,7 +147,7 @@ public class RegistryHelper implements SimpleRegistrationHelper {
      */
     public <H extends ScreenHandler, S extends HandledScreen<H>, T extends ScreenHandlerType<H>>
     ScreenHandlerType<H> registerScreen(String path, T handler, HandledScreens.Provider<H, S> screen) {
-        ScreenHandlerType<H> handlerTypeToReturn = Registry.register(Registries.SCREEN_HANDLER, modId(path), handler);
+        ScreenHandlerType<H> handlerTypeToReturn = Registry.register(Registries.SCREEN_HANDLER, modIdentifier(path), handler);
         HandledScreens.register(handlerTypeToReturn, screen);
         return handlerTypeToReturn;
     }

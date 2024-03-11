@@ -20,7 +20,7 @@ public interface SimpleRegistrationHelper {
      * @param path The path for the {@code Identifier}
      * @return The created {@code Identifier}
      */
-    default Identifier modId(String path) {
+    default Identifier modIdentifier(String path) {
         return new Identifier(this.modId(), path);
     }
 
@@ -30,7 +30,7 @@ public interface SimpleRegistrationHelper {
      * @param path The path for the {@code Identifier}
      * @return The created {@code Identifier}
      */
-    default Identifier mcId(String path) {
+    default Identifier mcIdentifier(String path) {
         return new Identifier(path);
     }
 
