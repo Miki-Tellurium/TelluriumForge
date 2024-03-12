@@ -5,7 +5,7 @@ import net.minecraft.util.Identifier;
 /**
  * A base interface used to make registration helpers.
  */
-public interface SimpleRegistrationHelper {
+public interface IdentifierProvider {
 
     /**
      * Gets the mod id.

@@ -23,7 +23,7 @@ import net.minecraft.screen.ScreenHandlerType;
  * The {@code RegistryHelper} class provides utility methods for registering various game elements
  * such as blocks, items, block entities, etc.
  */
-public class RegistryHelper implements SimpleRegistrationHelper {
+public class RegistryHelper implements IdentifierProvider {
 
     private final String modId;
 
