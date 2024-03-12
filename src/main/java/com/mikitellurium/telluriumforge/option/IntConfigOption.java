@@ -1,7 +1,6 @@
 package com.mikitellurium.telluriumforge.option;
 
-import com.mikitellurium.telluriumforge.config.RangedConfigEntry;
-import com.mikitellurium.telluriumforge.config.TelluriumConfig;
+import com.mikitellurium.telluriumforge.config.entry.RangedConfigEntry;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.util.Identifier;

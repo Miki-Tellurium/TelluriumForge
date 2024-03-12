@@ -1,4 +1,6 @@
-package com.mikitellurium.telluriumforge.config;
+package com.mikitellurium.telluriumforge.config.entry;
+
+import com.mikitellurium.telluriumforge.config.TelluriumConfig;
 
 /**
  * An object used to save a config value that has to be

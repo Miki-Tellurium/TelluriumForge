@@ -1,5 +1,8 @@
 package com.mikitellurium.telluriumforge.config;
 
+import com.mikitellurium.telluriumforge.config.entry.ConfigEntry;
+import com.mikitellurium.telluriumforge.config.entry.EnumConfigEntry;
+import com.mikitellurium.telluriumforge.config.entry.RangedConfigEntry;
 import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -8,7 +8,7 @@ import java.util.function.Supplier;
  *
  * @param <T> The type of the cached object
  */
-public class CachedObject<T> implements Supplier<T> {
+public class CachedObject<T> {
 
     /**
      * The cached object.
@@ -55,7 +55,6 @@ public class CachedObject<T> implements Supplier<T> {
      *
      * @return The cached object, which may be null for an empty {@code CachedObject}
      */
-    @Override
     public T get() {
         return this.obj;
     }
