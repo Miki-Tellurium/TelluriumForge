@@ -1,6 +1,6 @@
 package com.mikitellurium.telluriumforge.option;
 
-import com.mikitellurium.telluriumforge.config.entry.ConfigEntry;
+import com.mikitellurium.telluriumforge.config.ConfigEntry;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;

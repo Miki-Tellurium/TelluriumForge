@@ -1,6 +1,4 @@
-package com.mikitellurium.telluriumforge.config.entry;
-
-import com.mikitellurium.telluriumforge.config.TelluriumConfig;
+package com.mikitellurium.telluriumforge.config;
 
 import java.util.ArrayList;
 import java.util.List;
