@@ -22,7 +22,7 @@ public class NetworkingHelper {
      * @param packetType  The custom {@code PacketType} to register
      * @param handler The handler for processing the received packet on the server
      */
-    public <T extends FabricPacket> void registerC2SPacket(PacketType<T> packetType,
+    public static <T extends FabricPacket> void registerC2SPacket(PacketType<T> packetType,
                                                                   ServerPlayNetworking.PlayPacketHandler<T> handler) {
         ServerPlayNetworking.registerGlobalReceiver(packetType, handler);
     }
@@ -34,7 +34,7 @@ public class NetworkingHelper {
      * @param packetType  The custom {@code PacketType} to register
      * @param handler The handler for processing the received packet on the client
      */
-    public <T extends FabricPacket> void registerS2CPacket(PacketType<T> packetType,
+    public static <T extends FabricPacket> void registerS2CPacket(PacketType<T> packetType,
                                                                   ClientPlayNetworking.PlayPacketHandler<T> handler) {
         ClientPlayNetworking.registerGlobalReceiver(packetType, handler);
     }
@@ -45,7 +45,7 @@ public class NetworkingHelper {
      * @param player The player to send the packet to
      * @param packet The packet to send
      */
-    public void sendToClient(ServerPlayerEntity player, FabricPacket packet) {
+    public static void sendToClient(ServerPlayerEntity player, FabricPacket packet) {
         ServerPlayNetworking.send(player, packet);
     }
 
@@ -56,7 +56,7 @@ public class NetworkingHelper {
      * @param pos    The block position to track
      * @param packet The packet to send
      */
-    public void sendToTrackingClients(ServerWorld world, BlockPos pos, FabricPacket packet) {
+    public static void sendToTrackingClients(ServerWorld world, BlockPos pos, FabricPacket packet) {
         if (world != null && !world.isClient) {
             for (ServerPlayerEntity player : PlayerLookup.tracking(world, pos)) {
                 ServerPlayNetworking.send(player, packet);
@@ -70,7 +70,7 @@ public class NetworkingHelper {
      * @param server The {@code ServerWorld}
      * @param packet The packet to send
      */
-    public void sendToAllClients(ServerWorld server, FabricPacket packet) {
+    public static void sendToAllClients(ServerWorld server, FabricPacket packet) {
         if (server != null) {
             for (ServerPlayerEntity player : PlayerLookup.all(server.getServer())) {
                 ServerPlayNetworking.send(player, packet);
@@ -83,7 +83,7 @@ public class NetworkingHelper {
      *
      * @param packet The packet to send
      */
-    public void sendToServer(FabricPacket packet) {
+    public static void sendToServer(FabricPacket packet) {
         ClientPlayNetworking.send(packet);
     }
 
