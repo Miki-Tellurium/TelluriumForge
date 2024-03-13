@@ -1,6 +1,9 @@
 package com.mikitellurium.telluriumforge.energy;
 
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtLong;
 import net.minecraft.util.math.Direction;
 import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
@@ -102,7 +105,8 @@ public class WrappedEnergyStorage {
         return 0;
     }
 
-    public long getAmount() {
+
+    public long getEnergy() {
         return this.energyStorage.getAmount();
     }
 
@@ -117,6 +121,27 @@ public class WrappedEnergyStorage {
      */
     public void setEnergy(long energy) {
         this.energyStorage.amount = Math.min(energy, this.getCapacity());
+    }
+
+    /**
+     * Write the stored energy amount in a Nbt and return it.
+     *
+     * @return The written Nbt
+     */
+    public NbtElement writeNbt() {
+        return NbtLong.of(this.getEnergy());
+    }
+
+    /**
+     * Sets the current stored energy to the value read from
+     * the provided Nbt.
+     *
+     * @param nbt The Nbt that stores the energy value
+     */
+    public void readNBT(NbtElement nbt) {
+        if (!(nbt instanceof NbtLong nbtLong))
+            throw new IllegalArgumentException("Cannot read an Nbt that isn't a long value");
+        this.setEnergy(nbtLong.longValue());
     }
 
 }
