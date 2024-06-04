@@ -48,6 +48,8 @@ java {
 }
 
 jar {
+	version = "${project.version}-${minecraft_version}-fabric"
+
 	from("LICENSE") {
 		rename { "${it}_${project.base.archivesName.get()}"}
 	}
