@@ -43,3 +43,4 @@ replay_*.log
 /.github/
 /src/main/resources/assets/lang/
 /src/main/resources/assets/telluriumforge/lang/
+/remappedSrc/
