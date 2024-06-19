@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -290,7 +291,7 @@ public class TelluriumConfig {
      *
      * // Define an integer entry within a specified range
      * RangedConfigEntry<Integer> rangedEntry = entryBuilder.comment("This is a comment")
-     *      .defineInRange("cooldownSeconds", 1, 60, 10);
+     *      .defineInRange("cooldownSeconds", 5, 0, 10);
      *
      * // Define an enum entry
      * EnumConfigEntry<SomeEnum> rangedEntry = entryBuilder
@@ -366,6 +367,7 @@ public class TelluriumConfig {
          * @return the entry that was created
          */
         public RangedConfigEntry<Integer> defineInRange(String key, int defaultValue, int minValue, int maxValue) {
+            this.validateArgs(defaultValue, minValue, maxValue);
             RangedConfigEntry<Integer> newEntry = new RangedConfigEntry<>(parent, key, defaultValue, minValue, maxValue);
             entries.add(newEntry);
             this.buildEntry(newEntry);
@@ -399,6 +401,7 @@ public class TelluriumConfig {
          * @return the entry that was created
          */
         public RangedConfigEntry<Double> defineInRange(String key, double defaultValue, double minValue, double maxValue) {
+            this.validateArgs(defaultValue, minValue, maxValue);
             RangedConfigEntry<Double> newEntry = new RangedConfigEntry<>(parent, key, defaultValue, minValue, maxValue);
             entries.add(newEntry);
             this.buildEntry(newEntry);
@@ -432,6 +435,7 @@ public class TelluriumConfig {
          * @return the entry that was created
          */
         public RangedConfigEntry<Long> defineInRange(String key, long defaultValue, long minValue, long maxValue) {
+            this.validateArgs(defaultValue, minValue, maxValue);
             RangedConfigEntry<Long> newEntry = new RangedConfigEntry<>(parent, key, defaultValue, minValue, maxValue);
             entries.add(newEntry);
             this.buildEntry(newEntry);
@@ -478,6 +482,23 @@ public class TelluriumConfig {
                 }
             }
             this.context = new EntryBuilderContext();
+        }
+
+        /**
+         * Make sure that the provided values are in the correct range and throws if
+         * they are not.
+         */
+        private <N extends Comparable<N>> void validateArgs(N defaultValue, N minValue, N maxValue) {
+            int i = minValue.compareTo(maxValue);
+            if (i > 0) {
+                throw new IllegalArgumentException(String.format(Locale.ROOT,
+                        "Min value (%s) can't be greater than max value (%s)", minValue, maxValue));
+            } else if (i == 0) {
+                throw new IllegalArgumentException("Min value and max value can't be equal");
+            } else if (defaultValue.compareTo(minValue) < 0 || defaultValue.compareTo(maxValue) > 0) {
+                throw new IllegalArgumentException(String.format(Locale.ROOT,
+                        "Default value (%s) must be between the min (%s) and max (%s) value", defaultValue, minValue, maxValue));
+            }
         }
 
     }

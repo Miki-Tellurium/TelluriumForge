@@ -1,6 +1,5 @@
 package com.mikitellurium.telluriumforge.registry;
 
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -62,7 +61,7 @@ public class RegistryHelper implements IdentifierProvider {
      */
     public Block registerBlockWithItem(String path, Block block) {
         Block blockToReturn = registerBlock(path, block);
-        registerItem(path, new BlockItem(blockToReturn, new FabricItemSettings()));
+        registerItem(path, new BlockItem(blockToReturn, new Item.Settings()));
         return blockToReturn;
     }
 
@@ -110,16 +109,16 @@ public class RegistryHelper implements IdentifierProvider {
         return Registry.register(Registries.ENTITY_TYPE, modIdentifier(path), entity);
     }
 
-    /**
-     * Registers an enchantment with the game registry.
-     *
-     * @param path       The path of the enchantment
-     * @param enchantment The enchantment to register
-     * @return The registered enchantment
-     */
-    public Enchantment registerEnchantment(String path, Enchantment enchantment) {
-        return Registry.register(Registries.ENCHANTMENT, modIdentifier(path), enchantment);
-    }
+//    /**
+//     * Registers an enchantment with the game registry.
+//     *
+//     * @param path       The path of the enchantment
+//     * @param enchantment The enchantment to register
+//     * @return The registered enchantment
+//     */
+//    public Enchantment registerEnchantment(String path, Enchantment enchantment) {
+//        return Registry.register(Registries.ENCHANTMENT, modIdentifier(path), enchantment);
+//    }
 
     /**
      * Registers a tag key with the game registry.

@@ -21,7 +21,7 @@ public interface IdentifierProvider {
      * @return The created {@code Identifier}
      */
     default Identifier modIdentifier(String path) {
-        return new Identifier(this.modId(), path);
+        return Identifier.of(this.modId(), path);
     }
 
     /**
@@ -31,7 +31,7 @@ public interface IdentifierProvider {
      * @return The created {@code Identifier}
      */
     default Identifier mcIdentifier(String path) {
-        return new Identifier(path);
+        return Identifier.ofVanilla(path);
     }
 
 }

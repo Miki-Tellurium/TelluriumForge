@@ -41,3 +41,5 @@ replay_*.log
 /src/main/java/com/mikitellurium/telluriumforge/test/
 /gradle/
 /.github/
+/src/main/resources/assets/lang/
+/src/main/resources/assets/telluriumforge/lang/
