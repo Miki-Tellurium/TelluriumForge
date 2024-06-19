@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"id": "telluriumforge",
-	"version": "${version}",
+	"version": "${mod_version}",
 	"name": "TelluriumForge",
 	"description": "Library for Miki Tellurium mods.",
 	"authors": [
@@ -24,8 +24,8 @@
 	],
 	"depends": {
 		"fabricloader": ">=0.15.3",
-		"minecraft": ">=1.20.4",
-		"java": ">=17",
+		"minecraft": ">=1.21",
+		"java": ">=21",
 		"fabric-api": "*"
 	},
 	"suggests": {
