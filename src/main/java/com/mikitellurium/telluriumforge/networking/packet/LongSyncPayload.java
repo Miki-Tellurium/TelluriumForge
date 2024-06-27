@@ -5,25 +5,26 @@ import net.minecraft.util.math.BlockPos;
 
 /**
  * Implementation of the {@link BlockEntitySyncPayload} class that send
- * a double value.
+ * a long value.
  */
-public abstract class DoubleSyncPacket extends BlockEntitySyncPayload<Double> {
+public abstract class LongSyncPayload extends BlockEntitySyncPayload<Long> {
 
     /**
      * Construct a new payload with the {@code BlockPos} of the
      * block entity to synchronize.
      *
      * @param blockPos the {@code BlockPos} of the block entity to sync
-     * @param value the double value to sync
+     * @param value the long value to sync
      */
-    public DoubleSyncPacket(BlockPos blockPos, Double value) {
+    public LongSyncPayload(BlockPos blockPos, Long value) {
         super(blockPos, value);
     }
 
     @Override
     public void write(RegistryByteBuf buf) {
         buf.writeBlockPos(this.getBlockPos());
-        buf.writeDouble(this.getValue());
+        buf.writeLong(this.getValue());
     }
+
 
 }

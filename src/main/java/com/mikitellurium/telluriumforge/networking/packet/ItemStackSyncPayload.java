@@ -2,30 +2,29 @@ package com.mikitellurium.telluriumforge.networking.packet;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.math.BlockPos;
 
 /**
  * Implementation of the {@link BlockEntitySyncPayload} class that send
- * an Ingredient.
+ * a ItemStack value.
  */
-public abstract class IngredientSyncPacket extends BlockEntitySyncPayload<Ingredient> {
+public abstract class ItemStackSyncPayload extends BlockEntitySyncPayload<ItemStack> {
 
     /**
      * Construct a new payload with the {@code BlockPos} of the
      * block entity to synchronize.
      *
      * @param blockPos the {@code BlockPos} of the block entity to sync
-     * @param value the Ingredient to sync
+     * @param value the ItemStack to sync
      */
-    public IngredientSyncPacket(BlockPos blockPos, Ingredient value) {
+    public ItemStackSyncPayload(BlockPos blockPos, ItemStack value) {
         super(blockPos, value);
     }
 
     @Override
     public void write(RegistryByteBuf buf) {
         buf.writeBlockPos(this.getBlockPos());
-        Ingredient.PACKET_CODEC.encode(buf, this.getValue());
+        ItemStack.PACKET_CODEC.encode(buf, this.getValue());
     }
 
 }

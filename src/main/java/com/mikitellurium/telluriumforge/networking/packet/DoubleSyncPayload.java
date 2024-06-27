@@ -3,29 +3,27 @@ package com.mikitellurium.telluriumforge.networking.packet;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.util.math.BlockPos;
 
-import java.util.UUID;
-
 /**
  * Implementation of the {@link BlockEntitySyncPayload} class that send
- * an UUID.
+ * a double value.
  */
-public abstract class UUIDSyncPacket extends BlockEntitySyncPayload<UUID> {
+public abstract class DoubleSyncPayload extends BlockEntitySyncPayload<Double> {
 
     /**
      * Construct a new payload with the {@code BlockPos} of the
      * block entity to synchronize.
      *
      * @param blockPos the {@code BlockPos} of the block entity to sync
-     * @param value the uuid value to sync
+     * @param value the double value to sync
      */
-    public UUIDSyncPacket(BlockPos blockPos, UUID value) {
+    public DoubleSyncPayload(BlockPos blockPos, Double value) {
         super(blockPos, value);
     }
 
     @Override
     public void write(RegistryByteBuf buf) {
         buf.writeBlockPos(this.getBlockPos());
-        buf.writeUuid(this.getValue());
+        buf.writeDouble(this.getValue());
     }
 
 }

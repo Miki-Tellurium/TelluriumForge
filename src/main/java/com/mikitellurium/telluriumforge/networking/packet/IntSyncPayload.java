@@ -7,7 +7,7 @@ import net.minecraft.util.math.BlockPos;
  * Implementation of the {@link BlockEntitySyncPayload} class that send
  * a integer value.
  */
-public abstract class IntSyncPacket extends BlockEntitySyncPayload<Integer> {
+public abstract class IntSyncPayload extends BlockEntitySyncPayload<Integer> {
 
     /**
      * Construct a new payload with the {@code BlockPos} of the
@@ -16,7 +16,7 @@ public abstract class IntSyncPacket extends BlockEntitySyncPayload<Integer> {
      * @param blockPos the {@code BlockPos} of the block entity to sync
      * @param value the integer value to sync
      */
-    public IntSyncPacket(BlockPos blockPos, Integer value) {
+    public IntSyncPayload(BlockPos blockPos, Integer value) {
         super(blockPos, value);
     }
 
