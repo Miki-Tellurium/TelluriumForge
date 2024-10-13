@@ -137,18 +137,25 @@ public class RegistryHelper implements IdentifierProvider {
      * Registers a screen handler type with the game registry.
      *
      * @param <H>     The type of the screen handler
-     * @param <S>     The type of the handled screen
      * @param <T>     The type of the screen handler type
      * @param path    The path of the screen handler
      * @param handler The screen handler type to register
-     * @param screen  The provider for the handled screen
      * @return The registered screen handler type
      */
-    public <H extends ScreenHandler, S extends HandledScreen<H>, T extends ScreenHandlerType<H>>
-    ScreenHandlerType<H> registerScreen(String path, T handler, HandledScreens.Provider<H, S> screen) {
-        ScreenHandlerType<H> handlerTypeToReturn = Registry.register(Registries.SCREEN_HANDLER, modIdentifier(path), handler);
-        HandledScreens.register(handlerTypeToReturn, screen);
-        return handlerTypeToReturn;
+    public <H extends ScreenHandler, T extends ScreenHandlerType<H>> ScreenHandlerType<H> registerScreenHandler(String path, T handler) {
+        return Registry.register(Registries.SCREEN_HANDLER, modIdentifier(path), handler);
+    }
+
+    /**
+     * Registers a handled screen for a given screen handler type.
+     *
+     * @param <H>     the type of {@link ScreenHandler} associated with the screen
+     * @param <S>     the type of {@link HandledScreen} associated with the screen handler
+     * @param type    the {@link ScreenHandlerType} that defines the type of screen handler
+     * @param screen  the {@link HandledScreens.Provider} that provides the corresponding handled screen
+     */
+    public <H extends ScreenHandler, S extends HandledScreen<H>> void registerHandledScreen(ScreenHandlerType<H> type, HandledScreens.Provider<H, S> screen) {
+        HandledScreens.register(type, screen);
     }
 
 }
