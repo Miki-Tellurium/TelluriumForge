@@ -17,7 +17,7 @@ public class LogUtils {
         if (player != null) {
             player.sendMessage(Text.of(message));
         } else {
-            TelluriumForge.logger().error("Could not send chat message:" + message);
+            TelluriumForge.logger().error("Could not send chat message: {}", message);
         }
     }
 
