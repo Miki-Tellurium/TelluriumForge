@@ -6,7 +6,6 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
@@ -40,6 +39,16 @@ public class RegistryHelper implements IdentifierProvider {
     @Override
     public String modId() {
         return this.modId;
+    }
+
+    /**
+     * Initializes the given {@link InitializedRegistry} using the provided {@link RegistryHelper}.
+     *
+     * @param helper   the {@link RegistryHelper} used for initialization
+     * @param registry the {@link InitializedRegistry} to initialize
+     */
+    public static void initRegistry(RegistryHelper helper, InitializedRegistry registry) {
+        registry.init(helper);
     }
 
     /**
