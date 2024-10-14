@@ -65,14 +65,28 @@ public class RegistryHelper implements IdentifierProvider {
 
     /**
      * Registers a block with its corresponding item in the game registry.
+     * Uses the default item settings.
      *
      * @param path  The path of the block
      * @param block The block to register
      * @return The registered block
      */
     public Block registerBlockWithItem(String path, Block block) {
+        return registerBlockWithItem(path, block, new FabricItemSettings());
+    }
+
+    /**
+     * Registers a block with its corresponding item in the game registry.
+     * This method allows for custom {@link FabricItemSettings} to be passed for the block's item.
+     *
+     * @param path  The path of the block
+     * @param block The block to register
+     * @param itemSettings The settings to apply to the block's item
+     * @return The registered block
+     */
+    public Block registerBlockWithItem(String path, Block block, FabricItemSettings itemSettings) {
         Block blockToReturn = registerBlock(path, block);
-        registerItem(path, new BlockItem(blockToReturn, new FabricItemSettings()));
+        registerItem(path, new BlockItem(blockToReturn, itemSettings));
         return blockToReturn;
     }
 
