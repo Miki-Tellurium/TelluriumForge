@@ -1,6 +1,7 @@
 package com.mikitellurium.telluriumforge.registry;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -18,6 +19,9 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * The {@code RegistryHelper} class provides utility methods for registering various game elements
@@ -105,11 +109,25 @@ public class RegistryHelper implements IdentifierProvider {
      * Registers a block entity with the game registry.
      *
      * @param path The path of the block entity
-     * @param blockEntity The block entity to register
+     * @param factory The factory used for the block entity creation
+     * @param blocks The list of block that uses this block entity
      * @return The registered block entity type
      */
-    public <T extends BlockEntity> BlockEntityType<T> registerBlockEntity(String path, BlockEntityType<T> blockEntity) {
-        return Registry.register(Registries.BLOCK_ENTITY_TYPE, modIdentifier(path), blockEntity);
+    public <T extends BlockEntity> BlockEntityType<T> registerBlockEntity(String path, FabricBlockEntityTypeBuilder.Factory<T> factory, List<Block> blocks) {
+        return registerBlockEntity(path, factory, blocks.toArray(Block[]::new));
+    }
+
+    /**
+     * Registers a block entity with the game registry.
+     *
+     * @param path The path of the block entity
+     * @param factory The factory used for the block entity creation
+     * @param blocks The list of block that uses this block entity
+     * @return The registered block entity type
+     */
+    public <T extends BlockEntity> BlockEntityType<T> registerBlockEntity(String path, FabricBlockEntityTypeBuilder.Factory<T> factory, Block... blocks) {
+        BlockEntityType<T> type = FabricBlockEntityTypeBuilder.create(factory, blocks).build();
+        return Registry.register(Registries.BLOCK_ENTITY_TYPE, modIdentifier(path), type);
     }
 
     /**
