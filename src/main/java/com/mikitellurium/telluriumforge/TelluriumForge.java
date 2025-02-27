@@ -1,16 +1,17 @@
 package com.mikitellurium.telluriumforge;
 
-import net.fabricmc.api.ModInitializer;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.common.Mod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TelluriumForge implements ModInitializer {
+@Mod(TelluriumForge.MOD_ID)
+public class TelluriumForge {
 
-	private static final String MOD_ID = "telluriumforge";
+	public static final String MOD_ID = "telluriumforge";
     private static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-	@Override
-	public void onInitialize() {
+	public TelluriumForge(IEventBus modEventBus) {
 	}
 
 	public static String modId() {

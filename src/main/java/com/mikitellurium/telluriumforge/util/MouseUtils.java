@@ -1,6 +1,6 @@
 package com.mikitellurium.telluriumforge.util;
 
-import net.minecraft.client.util.math.Rect2i;
+import net.minecraft.client.renderer.Rect2i;
 
 /**
  * The {@code MouseUtils} class provides utility methods for handling mouse-related operations.
