@@ -1,6 +1,6 @@
 package com.mikitellurium.telluriumforge.registry;
 
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * A base interface used to make registration helpers.
@@ -20,8 +20,8 @@ public interface IdentifierProvider {
      * @param path The path for the {@code Identifier}
      * @return The created {@code Identifier}
      */
-    default Identifier modIdentifier(String path) {
-        return new Identifier(this.modId(), path);
+    default ResourceLocation modIdentifier(String path) {
+        return new ResourceLocation(this.modId(), path);
     }
 
     /**
@@ -30,8 +30,8 @@ public interface IdentifierProvider {
      * @param path The path for the {@code Identifier}
      * @return The created {@code Identifier}
      */
-    default Identifier mcIdentifier(String path) {
-        return new Identifier(path);
+    default ResourceLocation mcIdentifier(String path) {
+        return new ResourceLocation(path);
     }
 
 }

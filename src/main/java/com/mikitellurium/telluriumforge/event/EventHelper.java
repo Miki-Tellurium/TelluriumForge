@@ -1,56 +1,84 @@
 package com.mikitellurium.telluriumforge.event;
 
-import net.fabricmc.fabric.api.event.Event;
+import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.IEventBus;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
-/**
- * The {@code EventHelper} class provides a simple utility for registering
- * listeners associated with various events.
- */
 public class EventHelper {
 
-    /**
-     * The list of event registrations managed by this {@code EventHelper} instance.
-     */
-    private final List<EventRegistration<?>> events = new ArrayList<>();
+    private final List<EventRegistration> events = new ArrayList<>();
 
     public EventHelper() {}
 
-    /**
-     * Adds a listener for a specific event.
-     *
-     * @param <T>      The type of event
-     * @param event    The event to which the listener is added
-     * @param listener The listener to be added
-     * @return The current {@code EventHelper} instance for method chaining
-     */
-    public <T> EventHelper addListener(Event<T> event, T listener) {
-        events.add(new EventRegistration<>(event, listener));
+    public <T extends Event> EventHelper addListener(IEventBus eventBus, Consumer<T> listener) {
+        return addListener(eventBus, EventPriority.NORMAL, listener);
+    }
+
+    public <T extends Event> EventHelper addListener(IEventBus eventBus, EventPriority priority, Consumer<T> listener) {
+        events.add(new ListenerRegistration(eventBus, priority, listener));
         return this;
     }
 
-    /**
-     * Registers all the added event listeners and clears the list of registered events.
-     */
+    public EventHelper registerClass(IEventBus eventBus, Class<?> clazz) {
+        events.add(new ClassRegistration(eventBus, clazz));
+        return this;
+    }
+
     public void registerAll() {
         this.events.forEach(EventRegistration::register);
         this.events.clear();
     }
 
-    /**
-     * A record representing the registration of a listener for a specific event.
-     *
-     * @param <T> The type of event
-     */
-    private record EventRegistration<T> (Event<T> event, T listener) {
+    private abstract static class EventRegistration {
 
-        /**
-         * Registers the associated listener to the event.
-         */
-        private void register() {
-            event.register(listener);
+        private final IEventBus eventBus;
+
+        private EventRegistration(IEventBus eventBus) {
+            this.eventBus = eventBus;
+        }
+
+        public IEventBus getEventBus() {
+            return eventBus;
+        }
+
+        abstract void register();
+
+    }
+
+    private static class ListenerRegistration extends EventRegistration {
+
+        private final Consumer<? extends Event> listener;
+        private final EventPriority priority;
+
+        private ListenerRegistration(IEventBus eventBus, EventPriority priority, Consumer<? extends Event> listener) {
+            super(eventBus);
+            this.listener = listener;
+            this.priority = priority;
+        }
+
+        @Override
+        void register() {
+            this.getEventBus().addListener(priority, listener);
+        }
+
+    }
+
+    private static class ClassRegistration extends EventRegistration {
+
+        private final Class<?> eventClass;
+
+        private ClassRegistration(IEventBus eventBus, Class<?> eventClass) {
+            super(eventBus);
+            this.eventClass = eventClass;
+        }
+
+        @Override
+        void register() {
+            this.getEventBus().register(eventClass);
         }
 
     }
