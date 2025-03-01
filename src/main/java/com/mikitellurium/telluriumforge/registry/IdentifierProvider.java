@@ -20,7 +20,7 @@ public interface IdentifierProvider {
      * @param path The path for the {@code Identifier}
      * @return The created {@code Identifier}
      */
-    default ResourceLocation modIdentifier(String path) {
+    default ResourceLocation modLoc(String path) {
         return new ResourceLocation(this.modId(), path);
     }
 
@@ -30,7 +30,7 @@ public interface IdentifierProvider {
      * @param path The path for the {@code Identifier}
      * @return The created {@code Identifier}
      */
-    default ResourceLocation mcIdentifier(String path) {
+    default ResourceLocation mcLoc(String path) {
         return new ResourceLocation(path);
     }
 
