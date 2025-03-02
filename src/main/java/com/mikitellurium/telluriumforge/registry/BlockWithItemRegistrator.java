@@ -35,8 +35,8 @@ public record BlockWithItemRegistrator(DeferredRegister<Block> registry, Deferre
         registry.register(eventBus);
     }
 
-    public static BlockWithItemRegistrator makeRegistrator(DeferredRegister<Item> items, String modId) {
-        return new BlockWithItemRegistrator(DeferredRegister.create(ForgeRegistries.BLOCKS, modId), items);
+    public static BlockWithItemRegistrator makeRegistrator(RegistryHelper<Item> items, String modId) {
+        return new BlockWithItemRegistrator(DeferredRegister.create(ForgeRegistries.BLOCKS, modId), items.registry());
     }
 
 }
