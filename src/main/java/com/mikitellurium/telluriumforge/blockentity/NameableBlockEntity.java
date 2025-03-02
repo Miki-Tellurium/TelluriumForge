@@ -19,6 +19,10 @@ public abstract class NameableBlockEntity extends BlockEntity {
         this.name = name;
     }
 
+    public boolean hasCustomName() {
+        return this.name != null && !this.name.equals(this.getDefaultName());
+    }
+
     public Component getName() {
         return this.name != null ? this.name : this.getDefaultName();
     }
