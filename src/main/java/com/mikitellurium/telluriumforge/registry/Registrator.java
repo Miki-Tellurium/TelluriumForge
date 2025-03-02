@@ -11,8 +11,8 @@ import java.util.function.Supplier;
 public record Registrator<T>(DeferredRegister<T> registry) implements RegistryHelper<T> {
 
     @Override
-    public RegistryObject<T> register(String id, Supplier<T> supplier) {
-        return registry.register(id, supplier);
+    public <S extends T> RegistryObject<S> register(String id, Supplier<S> object) {
+        return registry.register(id, object);
     }
 
     public static <T> RegistryHelper<T> makeRegistrator(ResourceKey<Registry<T>> resourceKey, String modId) {

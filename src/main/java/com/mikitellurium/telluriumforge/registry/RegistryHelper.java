@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 
 public interface RegistryHelper<T> {
 
-    RegistryObject<T> register(String id, Supplier<T> object);
+    <S extends T> RegistryObject<S> register(String id, Supplier<S> object);
 
     DeferredRegister<T> registry();
 
