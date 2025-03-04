@@ -1,4 +1,4 @@
-package com.mikitellurium.telluriumforge.gui;
+package com.mikitellurium.telluriumforge.gui.menu;
 
 import net.minecraft.server.level.ServerPlayer;
 
