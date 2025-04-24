@@ -28,7 +28,7 @@ public class NetworkingHelper {
         return new NetworkingHelper(modId);
     }
 
-    public <P extends ModPacket> void registerPacket(int id, Class<P> clazz, Function<FriendlyByteBuf, P> factory, NetworkDirection networkDirection) {
+    public <P extends SimplePacket> void registerPacket(int id, Class<P> clazz, Function<FriendlyByteBuf, P> factory, NetworkDirection networkDirection) {
         channel.messageBuilder(clazz, id, networkDirection)
                 .decoder(factory)
                 .encoder(P::write)
@@ -40,19 +40,19 @@ public class NetworkingHelper {
         consumer.accept(channel);
     }
 
-    public <P extends ModPacket> void send(PacketDistributor.PacketTarget target, P message) {
+    public <P extends SimplePacket> void send(PacketDistributor.PacketTarget target, P message) {
         channel.send(target, message);
     }
 
-    public <P extends ModPacket> void sendToServer(P message) {
+    public <P extends SimplePacket> void sendToServer(P message) {
         channel.sendToServer(message);
     }
 
-    public <P extends ModPacket> void sendToClientPlayer(P message, ServerPlayer player) {
+    public <P extends SimplePacket> void sendToClientPlayer(P message, ServerPlayer player) {
         this.send(PacketDistributor.PLAYER.with(() -> player), message);
     }
 
-    public <P extends ModPacket> void sendToClients(P message) {
+    public <P extends SimplePacket> void sendToClients(P message) {
         this.send(PacketDistributor.ALL.noArg(), message);
     }
 

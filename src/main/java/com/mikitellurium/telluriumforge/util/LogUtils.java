@@ -21,8 +21,11 @@ public class LogUtils {
         }
     }
 
-    public static void consoleLog(Object message) {
-        System.out.println(message);
+    /**
+     * Log an object as a string on the console
+     */
+    public static void consoleLog(Object obj) {
+        System.out.println(obj);
     }
 
     public static void consoleLogSequence(Object... objects) {

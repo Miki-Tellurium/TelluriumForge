@@ -26,6 +26,9 @@ public record BlockWithItemRegistrator(DeferredRegister<Block> registry, Deferre
         return blockObj;
     }
 
+    /**
+     * Create a new {@code BlockWithItemRegistrator} using the provided item registry and mod id
+     */
     public static BlockWithItemRegistrator makeRegistrator(RegistryHelper<Item> items, String modId) {
         return new BlockWithItemRegistrator(DeferredRegister.create(ForgeRegistries.BLOCKS, modId), items.registry());
     }

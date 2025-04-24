@@ -7,6 +7,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
+/**
+ * Automatically handles custom name for block entities
+ */
 public abstract class NameableBlockEntity extends BlockEntity {
 
     private Component name;
@@ -27,6 +30,9 @@ public abstract class NameableBlockEntity extends BlockEntity {
         return this.name != null ? this.name : this.getDefaultName();
     }
 
+    /**
+     * @return the default name
+     */
     protected abstract Component getDefaultName();
 
     public void load(CompoundTag tag) {

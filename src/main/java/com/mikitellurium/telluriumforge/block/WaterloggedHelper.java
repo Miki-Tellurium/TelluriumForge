@@ -14,17 +14,27 @@ public interface WaterloggedHelper extends SimpleWaterloggedBlock {
 
     BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
-    default FluidState getFluidForBlockState(BlockState state) {
-        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : Fluids.EMPTY.defaultFluidState();
+    /**
+     * Return the {@link FluidState} of the block
+     * @return Water if the block is waterlogged or empty
+     */
+    default FluidState getFluidForBlockState(BlockState blockState) {
+        return blockState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : Fluids.EMPTY.defaultFluidState();
     }
 
-    default void updateFluid(BlockState state, LevelAccessor world, BlockPos pos) {
-        if (state.getValue(WATERLOGGED)) {
-            world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+    /**
+     * Updates the water state
+     */
+    default void updateFluid(BlockState blockState, LevelAccessor level, BlockPos pos) {
+        if (blockState.getValue(WATERLOGGED)) {
+            level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
     }
 
-    default boolean getFluidStateForPlacement(BlockPlaceContext context) {
+    /**
+     * Return true if the {@link FluidState} is water
+     */
+    default boolean shouldWaterlogOnPlacement(BlockPlaceContext context) {
         return context.getLevel().getFluidState(context.getClickedPos()).getType() == Fluids.WATER;
     }
 

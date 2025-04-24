@@ -3,6 +3,7 @@ package com.mikitellurium.telluriumforge.event;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,20 +15,32 @@ public class EventHelper {
 
     public EventHelper() {}
 
+    /**
+     * Add a listener to the provided event bus with the default priority
+     */
     public <T extends Event> EventHelper addListener(IEventBus eventBus, Consumer<T> listener) {
         return addListener(eventBus, EventPriority.NORMAL, listener);
     }
 
+    /**
+     * Add a listener to the provided event bus
+     */
     public <T extends Event> EventHelper addListener(IEventBus eventBus, EventPriority priority, Consumer<T> listener) {
         events.add(new ListenerRegistration(eventBus, priority, listener));
         return this;
     }
 
+    /**
+     * Register a class to the provided event bus.
+     */
     public EventHelper registerClass(IEventBus eventBus, Class<?> clazz) {
         events.add(new ClassRegistration(eventBus, clazz));
         return this;
     }
 
+    /**
+     * Register every object. Call this after adding every listener/class
+     */
     public void registerAll() {
         this.events.forEach(EventRegistration::register);
         this.events.clear();

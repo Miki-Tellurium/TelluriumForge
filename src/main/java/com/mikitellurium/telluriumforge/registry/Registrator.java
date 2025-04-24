@@ -15,10 +15,16 @@ public record Registrator<T>(DeferredRegister<T> registry) implements RegistryHe
         return registry.register(id, object);
     }
 
+    /**
+     * Create a new registrator using the provided {@link ResourceKey} and mod id
+     */
     public static <T> RegistryHelper<T> makeRegistrator(ResourceKey<Registry<T>> resourceKey, String modId) {
         return new Registrator<>(DeferredRegister.create(resourceKey, modId));
     }
 
+    /**
+     * Create a new registrator using the provided {@link IForgeRegistry} and mod id
+     */
     public static <T> RegistryHelper<T> makeRegistrator(IForgeRegistry<T> registry, String modId) {
         return makeRegistrator(registry.getRegistryKey(), modId);
     }

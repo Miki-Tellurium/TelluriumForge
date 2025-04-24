@@ -19,6 +19,10 @@ import java.util.List;
 
 public class JsonUtils {
 
+    /**
+     * @throws JsonSyntaxException if the {@link JsonObject} doesn't have
+     * one or more of the provided keys
+     */
     public static void validateJsonElement(JsonObject obj, String... keys) {
         Arrays.asList(keys).forEach((s) -> {
             if (!obj.has(s))
@@ -26,6 +30,9 @@ public class JsonUtils {
         });
     }
 
+    /**
+     * Get an ingredient from the provided {@link JsonElement}
+     */
     public static Ingredient ingredientFromJson(JsonElement element) {
         Ingredient ingredient;
         if (element.isJsonObject()) {
@@ -42,6 +49,9 @@ public class JsonUtils {
         return ingredient;
     }
 
+    /**
+     * Get an item from the provided {@link JsonObject} and string
+     */
     public static Item itemFromJson(JsonObject object, String memberName) {
         String s = GsonHelper.getAsString(object, memberName);
         Holder<Item> item = ForgeRegistries.ITEMS.getHolder(ResourceLocation.tryParse(s)).orElseThrow(() -> new JsonSyntaxException("Unknown item '" + s + "'"));
@@ -52,6 +62,9 @@ public class JsonUtils {
         }
     }
 
+    /**
+     * Get a stack from the provided {@link JsonObject} and string
+     */
     public static ItemStack itemStackFromJson(JsonObject object, String memberName) {
         if (!object.has(memberName)) throw new JsonSyntaxException("Missing " + memberName + ", expected to find a string or object");
         ItemStack output;
@@ -65,6 +78,5 @@ public class JsonUtils {
         }
         return output;
     }
-
 
 }
