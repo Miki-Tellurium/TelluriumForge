@@ -12,7 +12,6 @@ import java.util.function.BiFunction;
 
 public abstract class BlockEntitySyncPayload<T> implements BasePacketPayload {
 
-
     /**
      * Make a {@link StreamCodec} for the payload registration. Example:
      * <pre><code>
