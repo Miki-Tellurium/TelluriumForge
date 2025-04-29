@@ -41,7 +41,7 @@ public abstract class SimpleEnergyStorage extends EnergyStorage {
     }
 
     public void setEnergy(int energy) {
-        this.energy = energy;
+        this.energy = Math.max(0, Math.min(energy, this.getMaxEnergyStored()));
     }
 
     public abstract void onEnergyChanged();
