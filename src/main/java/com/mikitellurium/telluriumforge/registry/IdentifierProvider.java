@@ -9,26 +9,18 @@ public interface IdentifierProvider {
 
     /**
      * Gets the mod id.
-     *
-     * @return The mod id
      */
     String modId();
 
     /**
-     * Creates an {@code Identifier} using the mod id and the specified path.
-     *
-     * @param path The path for the {@code Identifier}
-     * @return The created {@code Identifier}
+     * Creates an {@link Identifier} using the mod id and the specified path.
      */
     default Identifier modIdentifier(String path) {
         return new Identifier(this.modId(), path);
     }
 
     /**
-     * Creates an {@code Identifier} using the "minecraft" namespace and the specified path.
-     *
-     * @param path The path for the {@code Identifier}
-     * @return The created {@code Identifier}
+     * Creates an {@link Identifier} using the "minecraft" namespace and the specified path.
      */
     default Identifier mcIdentifier(String path) {
         return new Identifier(path);
