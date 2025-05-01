@@ -6,4 +6,6 @@ public interface RegistryHelper<T> {
 
     <S extends T> S register(String id, Supplier<S> object);
 
+    default void init() {}
+
 }
