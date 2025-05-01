@@ -16,7 +16,7 @@ import net.minecraft.util.math.BlockPos;
  *
  * @param <T> The type of data that this packet send
  */
-public abstract class BlockEntitySyncPacket<T> implements FabricPacket {
+public abstract class BlockEntitySyncPacket<T> implements BasePacket {
 
     /**
      * The {@code BlockPos} of the block entity
