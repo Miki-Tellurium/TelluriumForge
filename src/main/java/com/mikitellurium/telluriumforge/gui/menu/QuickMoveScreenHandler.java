@@ -7,11 +7,11 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class QuickMoveContainerMenu extends ScreenHandler {
+public abstract class QuickMoveScreenHandler extends ScreenHandler {
 
     private final int invSize;
 
-    protected QuickMoveContainerMenu(@Nullable ScreenHandlerType<?> menuType, int id, int invSize) {
+    protected QuickMoveScreenHandler(@Nullable ScreenHandlerType<?> menuType, int id, int invSize) {
         super(menuType, id);
         this.invSize = invSize;
     }
@@ -86,7 +86,7 @@ public abstract class QuickMoveContainerMenu extends ScreenHandler {
 
                     Slot slot = this.slots.get(i);
                     ItemStack itemstack = slot.getStack();
-                    if (!itemstack.isEmpty() && ItemStack.areEqual(stack, itemstack)) {
+                    if (!itemstack.isEmpty() && ItemStack.canCombine(stack, itemstack)) {
                         int j = itemstack.getCount() + stack.getCount();
                         int maxSize = Math.min(slot.getMaxItemCount(), stack.getMaxCount());
                         if (j <= maxSize) {
