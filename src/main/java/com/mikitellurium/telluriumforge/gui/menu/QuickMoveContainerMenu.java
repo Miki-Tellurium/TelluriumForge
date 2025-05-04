@@ -85,7 +85,7 @@ public abstract class QuickMoveContainerMenu extends AbstractContainerMenu {
 
                     Slot slot = this.slots.get(i);
                     ItemStack itemstack = slot.getItem();
-                    if (!itemstack.isEmpty() && ItemStack.matches(stack, itemstack)) {
+                    if (!itemstack.isEmpty() && ItemStack.isSameItemSameComponents(stack, itemstack)) {
                         int j = itemstack.getCount() + stack.getCount();
                         int maxSize = Math.min(slot.getMaxStackSize(), stack.getMaxStackSize());
                         if (j <= maxSize) {
