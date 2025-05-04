@@ -1,6 +1,8 @@
 package com.mikitellurium.telluriumforge.blockentity;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
@@ -11,10 +13,18 @@ import net.minecraft.world.World;
  */
 public interface TickingBlockEntity {
 
+    static <T extends BlockEntity> BlockEntityTicker<T> getTicker() {
+        return (world, pos, state, blockEntity) -> {
+            if (blockEntity instanceof TickingBlockEntity) {
+                ((TickingBlockEntity)blockEntity).tick(world, pos, state);
+            } else {
+                throw new RuntimeException("Block entity does not implement TickingBlockEntity interface");
+            }
+        };
+    }
+
     /**
      * Tick the block entity based on the level side.
-     * This should be called from the block entity ticker
-     * created in the block class
      */
     default void tick(World world, BlockPos blockPos, BlockState blockState) {
         if (world.isClient) {
