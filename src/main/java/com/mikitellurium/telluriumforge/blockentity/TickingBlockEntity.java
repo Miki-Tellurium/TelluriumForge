@@ -4,12 +4,23 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
  * Implement this on a block entity
  */
 public interface TickingBlockEntity {
+    static <T extends BlockEntity> BlockEntityTicker<T> getTicker() {
+        return (world, pos, state, blockEntity) -> {
+            if (blockEntity instanceof TickingBlockEntity) {
+                ((TickingBlockEntity)blockEntity).tick(world, pos, state);
+            } else {
+                throw new RuntimeException("Block entity does not implement TickingBlockEntity interface");
+            }
+        };
+    }
 
     /**
      * Tick the block entity based on the level side.
