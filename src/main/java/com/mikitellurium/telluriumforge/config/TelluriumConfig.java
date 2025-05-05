@@ -189,8 +189,8 @@ public class TelluriumConfig {
                         writer.write(newline);
                     }
 
-                    writer.write("# Default = " + configEntry.getDefaultValue() + newline);
-                    writer.write(configEntry.getKey() + entrySeparator + configEntry.getValue() + newline);
+                    writer.write("# Default = " + configEntry.getDefault() + newline);
+                    writer.write(configEntry.getKey() + entrySeparator + configEntry.get() + newline);
                     writer.write(newline);
                 }
             }
@@ -238,20 +238,20 @@ public class TelluriumConfig {
                             enumEntry.setValueFromString(valueString);
                             return;
                         }
-                        Class<?> valueType = configEntry.getValue().getClass();
+                        Class<?> valueType = configEntry.get().getClass();
                         switch (valueType.getSimpleName()) {
-                            case "Boolean" -> configEntry.setValue(Boolean.parseBoolean(valueString));
-                            case "Integer" -> configEntry.setValue(Integer.parseInt(valueString));
-                            case "Double" -> configEntry.setValue(Double.parseDouble(valueString));
-                            case "Long" -> configEntry.setValue(Long.parseLong(valueString));
-                            case "String" -> configEntry.setValue(String.valueOf(valueString));
+                            case "Boolean" -> configEntry.set(Boolean.parseBoolean(valueString));
+                            case "Integer" -> configEntry.set(Integer.parseInt(valueString));
+                            case "Double" -> configEntry.set(Double.parseDouble(valueString));
+                            case "Long" -> configEntry.set(Long.parseLong(valueString));
+                            case "String" -> configEntry.set(String.valueOf(valueString));
                             default -> { // Handle unsupported types
-                                configEntry.setValue(configEntry.getDefaultValue());
+                                configEntry.set(configEntry.getDefault());
                                 logger.error("Unsupported value type for entry \"" + configEntry.getKey() + "\". Loaded default value.");
                             }
                         }
                     } catch (IllegalArgumentException e) {
-                        configEntry.setValue(configEntry.getDefaultValue());
+                        configEntry.set(configEntry.getDefault());
                         logger.error("Invalid value for entry \"" + configEntry.getKey() + "\". Loaded default value.");
                     }
 
@@ -302,7 +302,7 @@ public class TelluriumConfig {
      * }</pre>
      * It's convenient to save the entries in static fields so their values
      * can be accessed and changed from everywhere in the code using the
-     * {@link ConfigEntry#getValue} and {@link ConfigEntry#setValue} methods.
+     * {@link ConfigEntry#get} and {@link ConfigEntry#set} methods.
      */
     public class EntryBuilder {
 

@@ -14,7 +14,7 @@ public class EnumConfigEntry<E extends Enum<E>> extends ConfigEntry<E> {
     }
 
     public Class<E> getEnumClass() {
-        return this.getDefaultValue().getDeclaringClass();
+        return this.getDefault().getDeclaringClass();
     }
 
     /**
@@ -26,7 +26,7 @@ public class EnumConfigEntry<E extends Enum<E>> extends ConfigEntry<E> {
      */
     public void setValueFromString(String text) {
         E value = E.valueOf(this.getEnumClass(), text);
-        this.setValue(value);
+        this.set(value);
     }
 
     /**

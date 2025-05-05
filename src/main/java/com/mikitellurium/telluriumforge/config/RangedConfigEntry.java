@@ -44,13 +44,13 @@ public class RangedConfigEntry<N extends Number> extends ConfigEntry<N> {
      * @param value the new value
      */
     @Override
-    public void setValue(N value) {
+    public void set(N value) {
         if (compare(value, minValue) < 0) {
-            super.setValue(minValue);
+            super.set(minValue);
         } else if (compare(value, maxValue) > 0){
-            super.setValue(maxValue);
+            super.set(maxValue);
         } else {
-            super.setValue(value);
+            super.set(value);
         }
     }
 

@@ -42,14 +42,14 @@ public class ConfigEntry<T> {
     /**
      * @return the default value of this entry
      */
-    public T getDefaultValue() {
+    public T getDefault() {
         return defaultValue;
     }
 
     /**
      * @return the current loaded value for this entry
      */
-    public T getValue() {
+    public T get() {
         if (value == null || value.toString().isBlank()) {
             return defaultValue;
         }
@@ -65,7 +65,7 @@ public class ConfigEntry<T> {
      * new value to the config file.
      * @param value the new value
      */
-    public void setValue(T value) {
+    public void set(T value) {
         this.value = value;
     }
 
