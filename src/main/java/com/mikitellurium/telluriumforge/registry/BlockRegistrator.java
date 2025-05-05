@@ -12,7 +12,7 @@ public record BlockRegistrator(String modId) implements RegistryHelper<Block>, I
 
     @Override
     public <T extends Block> T register(String id, Supplier<T> block) {
-        return Registry.register(Registries.BLOCK, modIdentifier(id), block.get());
+        return Registry.register(Registries.BLOCK, ofMod(id), block.get());
     }
 
     public <T extends Block> T registerWithItem(String id, Supplier<T> block) {
@@ -20,13 +20,13 @@ public record BlockRegistrator(String modId) implements RegistryHelper<Block>, I
     }
 
     public <T extends Block> T registerWithItem(String id, Supplier<T> block, Item.Settings itemSettings) {
-        T blockObj = Registry.register(Registries.BLOCK, modIdentifier(id), block.get());
+        T blockObj = Registry.register(Registries.BLOCK, ofMod(id), block.get());
         registerBlockItem(id, blockObj, itemSettings);
         return blockObj;
     }
 
     public <T extends Block> BlockItem registerBlockItem(String id, T block, Item.Settings itemSettings) {
-        return Registry.register(Registries.ITEM, modIdentifier(id), new BlockItem(block, itemSettings));
+        return Registry.register(Registries.ITEM, ofMod(id), new BlockItem(block, itemSettings));
     }
 
 }

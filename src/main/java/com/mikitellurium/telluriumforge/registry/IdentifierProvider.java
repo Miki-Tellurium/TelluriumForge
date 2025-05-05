@@ -15,14 +15,14 @@ public interface IdentifierProvider {
     /**
      * Creates an {@link Identifier} using the mod id and the specified path.
      */
-    default Identifier modIdentifier(String path) {
+    default Identifier ofMod(String path) {
         return new Identifier(this.modId(), path);
     }
 
     /**
      * Creates an {@link Identifier} using the "minecraft" namespace and the specified path.
      */
-    default Identifier mcIdentifier(String path) {
+    default Identifier ofMc(String path) {
         return new Identifier(path);
     }
 
