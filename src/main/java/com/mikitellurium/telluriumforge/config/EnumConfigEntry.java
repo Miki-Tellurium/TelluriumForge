@@ -1,45 +1,43 @@
 package com.mikitellurium.telluriumforge.config;
 
-/**
- * An object used to save a config value that use
- * an enum. To make a new entry see the
- * implementation of {@link TelluriumConfig.EntryBuilder}.
- *
- * @param <E> The enum type associated with this entry
- */
+import com.mikitellurium.telluriumforge.config.serializer.EntryWriter;
+
+import java.util.List;
+
 public class EnumConfigEntry<E extends Enum<E>> extends ConfigEntry<E> {
-
-    protected EnumConfigEntry(TelluriumConfig parent, String key, E defaultValue) {
-        super(parent, key, defaultValue);
+    protected EnumConfigEntry(TelluriumConfig parent, Class<E> type, String key, E defaultValue) {
+        super(parent, type, key, defaultValue);
     }
 
-    public Class<E> getEnumClass() {
-        return this.getDefault().getDeclaringClass();
-    }
-
-    /**
-     * Sets the value of the {@code EnumConfigEntry} based
-     * on the provided string. The string should match the
-     * name of one of the enum constants.
-     *
-     * @param text The string representation of the enum value
-     */
-    public void setValueFromString(String text) {
-        E value = E.valueOf(this.getEnumClass(), text);
-        this.set(value);
-    }
-
-    /**
-     * Add a comment for this entry.
-     * Overrides the {@link ConfigEntry#comment} method to provide a more specific
-     * return type.
-     * @param comment the comment to write before the entry
-     * @return the config entry that was commented
-     */
     @Override
-    public EnumConfigEntry<E> comment(String comment) {
-        super.comment(comment);
-        return this;
+    public String writeValue(E value) {
+        return value.toString();
     }
 
+    @Override
+    public E readValue(String string) {
+        return E.valueOf(this.getType(), string);
+    }
+
+    @Override
+    public void writeEntry(EntryWriter writer) {
+        List<String> comments = this.getComments();
+        if (!comments.isEmpty()) {
+            for (String c : comments) {
+                writer.writeComment(c);
+            }
+        }
+        writer.write("# Options: ");
+        Enum<?>[] constants = this.getType().getEnumConstants();
+        for (Enum<?> constant : constants) {
+            writer.write(constant.toString());
+            if (!constants[constants.length - 1].equals(constant)) {
+                writer.write(", ");
+            } else {
+                writer.write(System.lineSeparator());
+            }
+        }
+        writer.writeComment("Default = " + this.writeValue(this.getDefault()));
+        writer.writeLine(this.getKey() + "=" + this.writeValue(this.get()));
+    }
 }

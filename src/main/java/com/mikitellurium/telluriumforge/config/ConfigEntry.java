@@ -1,89 +1,76 @@
 package com.mikitellurium.telluriumforge.config;
 
+import com.mikitellurium.telluriumforge.config.serializer.EntryWriter;
+
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * An object used to save a config value in a
- * config file. To make a new entry see the
- * implementation of {@link TelluriumConfig.EntryBuilder}.
- *
- * @param <T> Is the type of value held by this entry
- */
-@SuppressWarnings("fieldCanBeLocal")
-public class ConfigEntry<T> {
-
+public abstract class ConfigEntry<T> implements IConfigEntry<T> {
     private final TelluriumConfig builder;
     private final List<String> comments = new ArrayList<>();
+    private final Class<T> type;
     private final String key;
     private final T defaultValue;
     private T value;
 
-    protected ConfigEntry(TelluriumConfig parent, String key, T defaultValue) {
+    protected ConfigEntry(TelluriumConfig parent, Class<T> type, String key, T defaultValue) {
         this.builder = parent;
+        this.type = type;
         this.key = key;
         this.defaultValue = defaultValue;
     }
 
-    /**
-     * @return the {@link TelluriumConfig} instance that holds this entry
-     */
+    @Override
     public TelluriumConfig getParentConfig() {
         return builder;
     }
 
-    /**
-     * @return the key of this entry
-     */
+    @Override
+    public Class<T> getType() {
+        return type;
+    }
+
+    @Override
     public String getKey() {
         return key;
     }
 
-    /**
-     * @return the default value of this entry
-     */
+    @Override
     public T getDefault() {
         return defaultValue;
     }
 
-    /**
-     * @return the current loaded value for this entry
-     */
+    @Override
     public T get() {
-        if (value == null || value.toString().isBlank()) {
-            return defaultValue;
-        }
-
-        return value;
+        return value != null ? value : defaultValue;
     }
 
-    /**
-     * Change the currently loaded value of this entry.
-     * <p>
-     * If this is called during the execution of the game, call
-     * {@link TelluriumConfig#save()} before the game close to save the
-     * new value to the config file.
-     * @param value the new value
-     */
+    @Override
     public void set(T value) {
         this.value = value;
     }
 
-    /**
-     * Add a comment for this entry.
-     * @param comment the comment to write before the entry
-     * @return the config entry that was commented
-     */
-    public ConfigEntry<T> comment(String comment) {
+    @SuppressWarnings("unchecked")
+    @Override
+    public <E extends IConfigEntry<T>> E comment(String comment) {
         this.comments.add(comment);
-        return this;
+        return (E) this;
     }
 
-    /**
-     * @return the comments list of this entry
-     */
+    @Override
     public List<String> getComments() {
         return comments;
     }
 
+    @Override
+    public void writeEntry(EntryWriter writer) {
+        List<String> comments = this.getComments();
+        if (!comments.isEmpty()) {
+            for (String c : comments) {
+                writer.writeComment(c);
+            }
+        }
+        writer.writeComment("Default = " + this.writeValue(this.getDefault()));
+        writer.writeLine(this.getKey() + "=" + this.writeValue(this.get()));
+    }
 }

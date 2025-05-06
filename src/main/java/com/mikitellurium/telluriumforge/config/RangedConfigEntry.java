@@ -1,5 +1,9 @@
 package com.mikitellurium.telluriumforge.config;
 
+import com.mikitellurium.telluriumforge.config.serializer.EntryWriter;
+
+import java.util.List;
+
 /**
  * An object used to save a config value that has to be
  * in a certain range. To make a new entry see the
@@ -7,13 +11,12 @@ package com.mikitellurium.telluriumforge.config;
  *
  * @param <N> Is the type of {@link Number} held by this entry
  */
-public class RangedConfigEntry<N extends Number> extends ConfigEntry<N> {
-
+public class RangedConfigEntry<N extends Number & Comparable<N>> extends NumberConfigEntry<N> {
     private final N minValue;
     private final N maxValue;
 
-    protected RangedConfigEntry(TelluriumConfig parent, String key, N defaultValue, N minValue, N maxValue) {
-        super(parent, key, defaultValue);
+    protected RangedConfigEntry(TelluriumConfig parent, Class<N> type, String key, N defaultValue, N minValue, N maxValue) {
+        super(parent, type, key, defaultValue);
         this.minValue = minValue;
         this.maxValue = maxValue;
     }
@@ -33,11 +36,9 @@ public class RangedConfigEntry<N extends Number> extends ConfigEntry<N> {
     }
 
     /**
-     * Change the currently loaded value of this entry.
-     * <p>
+     * Change the currently loaded value of this entry.<br>
      * If the new value is out of the specified range for this entry
-     * it's automatically set to the closest value inside the range.
-     * <p>
+     * it's automatically set to the closest value inside the range.<br>
      * If this is called during the execution of the game, use
      * {@link TelluriumConfig#save()} before the game close to save the
      * new value to the config file.
@@ -55,30 +56,24 @@ public class RangedConfigEntry<N extends Number> extends ConfigEntry<N> {
     }
 
     /**
-     * Compares two values of type {@code T}.
-     *
-     * @param value1 the first value to compare
-     * @param value2 the second value to compare
-     * @return a negative integer if value1 is less than value2,
-     *         zero if they are equal, or a positive integer if
-     *         value1 is greater than value2
+     * Compares the numbers provided.
      */
-    @SuppressWarnings("unchecked")
     private int compare(N value1, N value2) {
-        return ((Comparable<N>) value1).compareTo(value2);
+        return value1.compareTo(value2);
     }
 
-    /**
-     * Add a comment for this entry.
-     * Overrides the {@link ConfigEntry#comment} method to provide a more specific
-     * return type.
-     * @param comment the comment to write before the entry
-     * @return the config entry that was commented
-     */
     @Override
-    public RangedConfigEntry<N> comment(String comment) {
-        super.comment(comment);
-        return this;
+    public void writeEntry(EntryWriter writer) {
+        List<String> comments = this.getComments();
+        if (!comments.isEmpty()) {
+            for (String c : comments) {
+                writer.writeComment(c);
+            }
+        }
+        N minValue = this.getMinValue();
+        N maxValue = this.getMaxValue();
+        writer.writeComment("Range: min=" + this.writeValue(minValue) + ", max=" + this.writeValue(maxValue));
+        writer.writeComment("Default = " + this.writeValue(this.getDefault()));
+        writer.writeLine(this.getKey() + "=" + this.writeValue(this.get()));
     }
-
 }
