@@ -1,7 +1,5 @@
 package com.mikitellurium.telluriumforge;
 
-import com.mikitellurium.telluriumforge.test.ExampleConfig;
-import com.mikitellurium.telluriumforge.test.TestEvents;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +11,6 @@ public class TelluriumForge implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		ExampleConfig.buildConfig();
-		TestEvents.registerEvents();
 	}
 
 	public static String modId() {
