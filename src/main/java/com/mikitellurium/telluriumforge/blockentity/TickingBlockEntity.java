@@ -12,7 +12,6 @@ import net.minecraft.world.World;
  * Implement this on a block entity
  */
 public interface TickingBlockEntity {
-
     static <T extends BlockEntity> BlockEntityTicker<T> getTicker() {
         return (world, pos, state, blockEntity) -> {
             if (blockEntity instanceof TickingBlockEntity) {
@@ -45,5 +44,4 @@ public interface TickingBlockEntity {
      */
     default void serverTick(ServerWorld level, BlockPos blockPos, BlockState blockState) {
     }
-
 }

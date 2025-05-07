@@ -4,6 +4,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.text.Text;
 import net.minecraft.util.Nameable;
 import net.minecraft.util.math.BlockPos;
@@ -36,19 +37,19 @@ public abstract class NameableBlockEntity extends BlockEntity implements Nameabl
     protected abstract Text getDefaultName();
 
     @Override
-    public void readNbt(NbtCompound nbt) {
-        super.readNbt(nbt);
+    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.readNbt(nbt, registryLookup);
         if (nbt.contains("CustomName", NbtCompound.STRING_TYPE)) {
-            this.name = Text.Serializer.fromJson(nbt.getString("CustomName"));
+            this.name = tryParseCustomName(nbt.getString("CustomName"), registryLookup);
         }
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt) {
+    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         if (this.name != null) {
-            nbt.putString("CustomName", Text.Serializer.toJson(this.name));
+            nbt.putString("CustomName", Text.Serialization.toJsonString(this.name, registryLookup));
         }
-        super.writeNbt(nbt);
+        super.writeNbt(nbt, registryLookup);
     }
 
 }

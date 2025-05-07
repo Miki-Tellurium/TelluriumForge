@@ -78,7 +78,7 @@ public abstract class ConfigOption<T> {
      * @return The default value
      */
     public T getDefaultValue() {
-        return this.config.getValue();
+        return this.config.get();
     }
 
     /**
@@ -99,7 +99,7 @@ public abstract class ConfigOption<T> {
      * @return The change callback
      */
     protected Consumer<T> changeCallback() {
-        return this.config::setValue;
+        return this.config::set;
     }
 
     /**

@@ -1,10 +1,13 @@
 package com.mikitellurium.telluriumforge.config;
 
+import com.mikitellurium.telluriumforge.config.serializer.EntryWriterImpl;
 import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -12,29 +15,15 @@ import java.util.Scanner;
 /**
  * A class used to create and load simple config files.
  */
-@SuppressWarnings("rawtypes")
-public class TelluriumConfig {
+public final class TelluriumConfig {
 
     private static final String fileExtension = ".properties";
 
     private final Logger logger;
-    /**
-     * The path of the config file.
-     */
     private final String file;
-    /**
-     * The type of this config file.
-     */
     private final Type type;
-
-    /**
-     * List of the file comments.
-     */
     private final List<String> comments = new ArrayList<>();
-    /**
-     * List of the entries managed by this file.
-     */
-    private final List<ConfigEntry> entries = new ArrayList<>();
+    private final List<IConfigEntry<?>> entries = new ArrayList<>();
 
     /**
      * Constructs a new {@code TelluriumConfig} instance.
@@ -50,8 +39,6 @@ public class TelluriumConfig {
     }
 
     /**
-     * Return the path of the config file.
-     *
      * @return the config file path
      */
     public String getConfigFilePath() {
@@ -59,8 +46,6 @@ public class TelluriumConfig {
     }
 
     /**
-     * Return the type of the config file.
-     *
      * @return the config file type
      */
     public Type getType() {
@@ -68,39 +53,28 @@ public class TelluriumConfig {
     }
 
     /**
-     * Returns the entry corresponding to the specified key
-     * or {@code null} if the config entry isn't found.
-     *
-     * @return the {@link ConfigEntry} corresponding to the key or {@code null} if no entry is found
+     * @return the {@link IConfigEntry} corresponding to the key or {@code null} if no entry is found
      */
-    public ConfigEntry<?> getEntry(String key) {
-        for (ConfigEntry entry : entries) {
+    public IConfigEntry<?> getEntry(String key) {
+        for (IConfigEntry<?> entry : entries) {
             if (entry.getKey().equals(key)) {
                 return entry;
             }
         }
-
         return null;
     }
 
     /**
-     * Gets the list of all entries managed by this
-     * {@code TelluriumConfig} instance.
-     *
-     * @return the list of entries
+     * @return the list of entries managed by this config
      */
-    public List<ConfigEntry> getEntries() {
+    public List<IConfigEntry<?>> getEntries() {
         return this.entries;
     }
 
     /**
-     * Add a comment to the config file.
-     * <p>
+     * Add a comment to the config file.<br>
      * Comments will be written at the top of the file before
      * any entry.
-     *
-     * @param comment the comment to write to the config file
-     * @return the builder object
      */
     public TelluriumConfig comment(String comment) {
         comments.add(comment);
@@ -118,7 +92,6 @@ public class TelluriumConfig {
      * // Use entryBuilder to build and configure entries.
      * }</pre>
      *
-     * @return A new instance of EntryBuilder
      * @see EntryBuilder
      */
     public EntryBuilder entryBuilder() {
@@ -134,22 +107,21 @@ public class TelluriumConfig {
     public void build() {
         File file = new File(this.file);
         if (file.exists()) {
-            load();
+            this.load();
         }
-        save();
+        this.save();
     }
 
     /**
      * Saves the current loaded values to the config file.
      * <p>
      * This is automatically called from the {@link TelluriumConfig#build()} method
-     * but can also be called individually to save values when they
-     * are changed during the execution of the game.
+     * but can also be called to save values changed during game execution.
      */
     public void save() {
         try {
             FileWriter writer = new FileWriter(file);
-            final String newline = System.lineSeparator(); // Wrap text
+            final String newline = System.lineSeparator();
 
             // Write comments
             if (!comments.isEmpty()) {
@@ -157,49 +129,21 @@ public class TelluriumConfig {
                     writer.write("# " + s + newline);
                 }
             }
-
             writer.write(newline);
             writer.write("[Settings]" + newline);
             writer.write(newline);
-
             // Write config entries
+            EntryWriterImpl entryWriter = new EntryWriterImpl(writer, this.getConfigFilePath(), logger);
             if (!entries.isEmpty()) {
-                for (ConfigEntry<?> configEntry : entries) {
-                    String entrySeparator = "=";
-
-                    List<String> list = configEntry.getComments();
-                    if (!list.isEmpty()) {
-                        for (String s : list) {
-                            writer.write("# " + s + newline);
-                        }
-                    }
-
-                    if (configEntry instanceof RangedConfigEntry<?> rangedEntry) {
-                        writer.write("# Range: min=" + rangedEntry.getMinValue() +
-                                ", max=" + rangedEntry.getMaxValue() + newline);
-                    } else if (configEntry instanceof EnumConfigEntry<?> enumEntry) {
-                        writer.write("# Options: ");
-                        Enum<?>[] constants = enumEntry.getEnumClass().getEnumConstants();
-                        for (Enum<?> constant : constants) {
-                            writer.write(constant.toString());
-                            if (!constants[constants.length - 1].equals(constant)) {
-                                writer.write(", ");
-                            }
-                        }
-                        writer.write(newline);
-                    }
-
-                    writer.write("# Default = " + configEntry.getDefaultValue() + newline);
-                    writer.write(configEntry.getKey() + entrySeparator + configEntry.getValue() + newline);
+                for (IConfigEntry<?> configEntry : entries) {
+                    configEntry.writeEntry(entryWriter);
                     writer.write(newline);
                 }
             }
-
             writer.flush();
             writer.close();
         } catch (IOException e) {
-            logger.error("Something went wrong when trying to write config file \"" + this.getConfigFilePath() + "\"");
-            e.printStackTrace();
+            logger.error("Something went wrong when trying to write config file \"{}\"", this.getConfigFilePath(), e);
         }
     }
 
@@ -211,11 +155,10 @@ public class TelluriumConfig {
             File file = new File(this.file);
             Scanner reader = new Scanner(file);
             for (int line = 1; reader.hasNextLine(); line++) {
-                parseConfigEntry(reader.nextLine(), line);
+                this.parseConfigEntry(reader.nextLine(), line);
             }
         } catch (IOException e) {
-            logger.error("Something went wrong when trying to read config file \"" + this.getConfigFilePath() + "\"");
-            e.printStackTrace();
+            logger.error("Something went wrong when trying to read config file \"{}\"", this.getConfigFilePath(), e);
         }
     }
 
@@ -223,64 +166,44 @@ public class TelluriumConfig {
      * Reads an entry from the config file and load its value
      */
     @SuppressWarnings("unchecked")
-    private void parseConfigEntry(String string, int line) {
-        if (isValueLine(string)) {
-            String[] entryParts = string.split("=", 2);
+    private <T> void parseConfigEntry(String string, int line) {
+        if (!isValueLine(string)) return;
 
-            if (entryParts.length == 2) {
-                ConfigEntry configEntry = this.getEntry(entryParts[0]);
-                String valueString = entryParts[1];
-
-                if (configEntry != null) {
-
-                    try {
-                        if (configEntry instanceof EnumConfigEntry<?> enumEntry) {
-                            enumEntry.setValueFromString(valueString);
-                            return;
-                        }
-                        Class<?> valueType = configEntry.getValue().getClass();
-                        switch (valueType.getSimpleName()) {
-                            case "Boolean" -> configEntry.setValue(Boolean.parseBoolean(valueString));
-                            case "Integer" -> configEntry.setValue(Integer.parseInt(valueString));
-                            case "Double" -> configEntry.setValue(Double.parseDouble(valueString));
-                            case "Long" -> configEntry.setValue(Long.parseLong(valueString));
-                            case "String" -> configEntry.setValue(String.valueOf(valueString));
-                            default -> { // Handle unsupported types
-                                configEntry.setValue(configEntry.getDefaultValue());
-                                logger.error("Unsupported value type for entry \"" + configEntry.getKey() + "\". Loaded default value.");
-                            }
-                        }
-                    } catch (IllegalArgumentException e) {
-                        configEntry.setValue(configEntry.getDefaultValue());
-                        logger.error("Invalid value for entry \"" + configEntry.getKey() + "\". Loaded default value.");
-                    }
-
-                } else {
-                    logger.error("Unknown entry found: \"" + entryParts[0] + "\" in config file \"" + this.getConfigFilePath() + "\" at line " + line + ". Removing it.");
-                }
-
-            } else {
-                logger.error("Unknown entry found: \"" + entryParts[0] + "\" in config file \"" + this.getConfigFilePath() + "\" at line " + line + ". Removing it.");
-            }
+        String[] entryParts = string.split("=", 2);
+        if (entryParts.length != 2) {
+            logger.error("Unknown entry found: \"{}\" in config file \"{}\" at line {}.", entryParts[0], this.getConfigFilePath(), line);
+            return;
+        }
+        IConfigEntry<T> configEntry = (IConfigEntry<T>) this.getEntry(entryParts[0]);
+        String valueString = entryParts[1];
+        if (configEntry == null) {
+            logger.error("Unknown entry found: \"{}\" in config file \"{}\" at line {}.", entryParts[0], this.getConfigFilePath(), line);
+            return;
+        }
+        try {
+            T value = configEntry.deserialize(valueString);
+            configEntry.set(value);
+        } catch (IllegalArgumentException e) {
+            configEntry.set(configEntry.getDefault());
+            logger.error("Unsupported value type for entry \"{}\". Loaded default value.", configEntry.getKey(), e);
         }
     }
 
     /**
-     * Check if the line currently loaded is an entry or a comment
+     * Check if the line is an entry
      */
     private boolean isValueLine(String line) {
-        if (line.isEmpty()) return false;
-        else if (line.startsWith("#") || line.startsWith("[")) return false;
-        return true;
+        if (line.isEmpty()) {
+            return false;
+        }
+        return !line.startsWith("#") && !line.startsWith("[");
     }
 
     /**
-     * The EntryBuilder class provides a convenient way to construct configuration entries
-     * within a specific {@code TelluriumConfig} instance. Configuration entries represent
-     * individual settings with associated values, and {@code EntryBuilder} simplifies their creation and
-     * configuration.
+     * Allows to create config entries for a specific {@link TelluriumConfig} instance.
+     * Config entries hold a default and a configurable value.
      * <p>
-     * Example Usage:
+     * Example usage:
      * <pre>{@code
      * TelluriumConfig config = new TelluriumConfig();
      * EntryBuilder entryBuilder = config.entryBuilder();
@@ -302,23 +225,18 @@ public class TelluriumConfig {
      * }</pre>
      * It's convenient to save the entries in static fields so their values
      * can be accessed and changed from everywhere in the code using the
-     * {@link ConfigEntry#getValue} and {@link ConfigEntry#setValue} methods.
+     * {@link IConfigEntry#get} and {@link IConfigEntry#set} methods.
      */
     public class EntryBuilder {
-
         private final TelluriumConfig parent;
-        private EntryBuilderContext context = new EntryBuilderContext();
+        private final EntryBuilderContext context = new EntryBuilderContext();
 
         private EntryBuilder(TelluriumConfig parent) {
             this.parent = parent;
         }
 
-
         /**
          * Add a comment to the entry.
-         *
-         * @param comment the comment to add to the entry
-         * @return this instance of the entry builder
          */
         public EntryBuilder comment(String comment) {
             context.add(comment);
@@ -326,181 +244,126 @@ public class TelluriumConfig {
         }
 
         /**
+         * Adds and returns the passed config entry
+         */
+        public <T, E extends IConfigEntry<T>> E define(E configEntry) {
+            entries.add(configEntry);
+            this.buildEntry(configEntry);
+            return configEntry;
+        }
+
+        /**
          * Makes an entry that holds a boolean value.
-         *
-         * @param key the name of the entry
-         * @param defaultValue the default value of the entry
-         * @return the entry that was created
          */
-        public ConfigEntry<Boolean> define(String key, boolean defaultValue) {
-            ConfigEntry<Boolean> newEntry = new ConfigEntry<>(parent, key, defaultValue);
-            entries.add(newEntry);
-            this.buildEntry(newEntry);
-            return newEntry;
+        public BooleanConfigEntry define(String key, boolean defaultValue) {
+            BooleanConfigEntry newEntry = new BooleanConfigEntry(parent, key, defaultValue);
+            return this.define(newEntry);
         }
 
         /**
          * Makes an entry that holds a integer value.
-         *
-         * @param key the name of the entry
-         * @param defaultValue the default value of the entry
-         * @return the entry that was created
          */
-        public ConfigEntry<Integer> define(String key, int defaultValue) {
-            ConfigEntry<Integer> newEntry = new ConfigEntry<>(parent, key, defaultValue);
-            entries.add(newEntry);
-            this.buildEntry(newEntry);
-            return newEntry;
+        public NumberConfigEntry<Integer> define(String key, int defaultValue) {
+            NumberConfigEntry<Integer> newEntry = new NumberConfigEntry<>(parent, Integer.class, key, defaultValue);
+            return this.define(newEntry);
         }
 
         /**
-         * Makes an entry that holds a integer value.
-         * <p>
+         * Makes an entry that holds a integer value.<br>
          * This value will always stay between the specified
          * range (inclusive).
-         *
-         * @param key the name of the entry
-         * @param defaultValue the default value of the entry
-         * @param minValue the minimum value this entry can have
-         * @param maxValue the maximum value this entry can have
-         * @return the entry that was created
          */
         public RangedConfigEntry<Integer> defineInRange(String key, int defaultValue, int minValue, int maxValue) {
-            RangedConfigEntry<Integer> newEntry = new RangedConfigEntry<>(parent, key, defaultValue, minValue, maxValue);
-            entries.add(newEntry);
-            this.buildEntry(newEntry);
-            return newEntry;
+            RangedConfigEntry<Integer> newEntry = new RangedConfigEntry<>(parent, Integer.class, key, defaultValue, minValue, maxValue);
+            return this.define(newEntry);
         }
 
         /**
          * Makes an entry that holds a double value.
-         *
-         * @param key the name of the entry
-         * @param defaultValue the default value of the entry
-         * @return the entry that was created
          */
-        public ConfigEntry<Double> define(String key, double defaultValue) {
-            ConfigEntry<Double> newEntry = new ConfigEntry<>(parent, key, defaultValue);
-            entries.add(newEntry);
-            this.buildEntry(newEntry);
-            return newEntry;
+        public NumberConfigEntry<Double> define(String key, double defaultValue) {
+            NumberConfigEntry<Double> newEntry = new NumberConfigEntry<>(parent, Double.class, key, defaultValue);
+            return this.define(newEntry);
         }
 
         /**
-         * Makes an entry that holds a double value.
-         * <p>
+         * Makes an entry that holds a double value.<br>
          * This value will always stay between the specified
          * range (inclusive).
-         *
-         * @param key the name of the entry
-         * @param defaultValue the default value of the entry
-         * @param minValue the minimum value this entry can have
-         * @param maxValue the maximum value this entry can have
-         * @return the entry that was created
          */
         public RangedConfigEntry<Double> defineInRange(String key, double defaultValue, double minValue, double maxValue) {
-            RangedConfigEntry<Double> newEntry = new RangedConfigEntry<>(parent, key, defaultValue, minValue, maxValue);
-            entries.add(newEntry);
-            this.buildEntry(newEntry);
-            return newEntry;
+            RangedConfigEntry<Double> newEntry = new RangedConfigEntry<>(parent, Double.class, key, defaultValue, minValue, maxValue);
+            return this.define(newEntry);
         }
 
         /**
          * Makes an entry that holds a long value.
-         *
-         * @param key the name of the entry
-         * @param defaultValue the default value of the entry
-         * @return the entry that was created
          */
-        public ConfigEntry<Long> define(String key, long defaultValue) {
-            ConfigEntry<Long> newEntry = new ConfigEntry<>(parent, key, defaultValue);
-            entries.add(newEntry);
-            this.buildEntry(newEntry);
-            return newEntry;
+        public NumberConfigEntry<Long> define(String key, long defaultValue) {
+            NumberConfigEntry<Long> newEntry = new NumberConfigEntry<>(parent, Long.class, key, defaultValue);
+            return this.define(newEntry);
         }
 
         /**
-         * Makes an entry that holds a long value.
-         * <p>
+         * Makes an entry that holds a long value.<br>
          * This value will always stay between the specified
          * range (inclusive).
-         *
-         * @param key the name of the entry
-         * @param defaultValue the default value of the entry
-         * @param minValue the minimum value this entry can have
-         * @param maxValue the maximum value this entry can have
-         * @return the entry that was created
          */
         public RangedConfigEntry<Long> defineInRange(String key, long defaultValue, long minValue, long maxValue) {
-            RangedConfigEntry<Long> newEntry = new RangedConfigEntry<>(parent, key, defaultValue, minValue, maxValue);
-            entries.add(newEntry);
-            this.buildEntry(newEntry);
-            return newEntry;
+            RangedConfigEntry<Long> newEntry = new RangedConfigEntry<>(parent, Long.class, key, defaultValue, minValue, maxValue);
+            return this.define(newEntry);
         }
 
         /**
          * Makes an entry that holds a string value.
-         *
-         * @param key the name of the entry
-         * @param defaultValue the default value of the entry
-         * @return the entry that was created
          */
-        public ConfigEntry<String> define(String key, String defaultValue) {
-            ConfigEntry<String> newEntry = new ConfigEntry<>(parent, key, defaultValue);
-            entries.add(newEntry);
-            this.buildEntry(newEntry);
-            return newEntry;
+        public StringConfigEntry define(String key, String defaultValue) {
+            StringConfigEntry newEntry = new StringConfigEntry(parent, key, defaultValue);
+            return this.define(newEntry);
         }
 
         /**
          * Makes an entry that holds an enum value.
-         *
-         * @param key the name of the entry
-         * @param defaultValue the default value of the entry
-         * @return the entry that was created
-         * @param <E> the enum type of this entry
          */
         public <E extends Enum<E>> EnumConfigEntry<E> define(String key, E defaultValue) {
-            EnumConfigEntry<E> newEntry = new EnumConfigEntry<>(parent, key, defaultValue);
-            entries.add(newEntry);
-            this.buildEntry(newEntry);
-            return newEntry;
+            EnumConfigEntry<E> newEntry = new EnumConfigEntry<>(parent, defaultValue.getDeclaringClass(), key, defaultValue);
+            return this.define(newEntry);
         }
 
         /**
         * Build and return the entry then reset the context
         */
-        private <T extends ConfigEntry<?>> void buildEntry(T configEntry) {
+        private <T extends IConfigEntry<?>> void buildEntry(T configEntry) {
             List<String> comments = context.getComments();
             if (!comments.isEmpty()) {
                 for (String s : context.getComments()) {
                     configEntry.comment(s);
                 }
             }
-            this.context = new EntryBuilderContext();
+            this.context.clear();
         }
-
     }
 
     /**
-     * A convenience object that holds the comment context for
-     * a {@link ConfigEntry} instance before it is constructed by the
-     * {@link EntryBuilder}
+     * Holds the comment context for a {@link IConfigEntry} instance before
+     * it is constructed by the {@link EntryBuilder}.
      */
     private static class EntryBuilderContext {
-
         private final List<String> comments = new ArrayList<>();
 
         private EntryBuilderContext() {}
 
-        public void add(String comment) {
+        private void add(String comment) {
             this.comments.add(comment);
         }
 
-        public List<String> getComments() {
+        private List<String> getComments() {
             return comments;
         }
 
+        private void clear() {
+            this.comments.clear();
+        }
     }
 
     public enum Type {

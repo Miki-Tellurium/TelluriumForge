@@ -86,7 +86,7 @@ public abstract class QuickMoveScreenHandler extends ScreenHandler {
 
                     Slot slot = this.slots.get(i);
                     ItemStack itemstack = slot.getStack();
-                    if (!itemstack.isEmpty() && ItemStack.canCombine(stack, itemstack)) {
+                    if (!itemstack.isEmpty() && ItemStack.areItemsAndComponentsEqual(stack, itemstack)) {
                         int j = itemstack.getCount() + stack.getCount();
                         int maxSize = Math.min(slot.getMaxItemCount(), stack.getMaxCount());
                         if (j <= maxSize) {

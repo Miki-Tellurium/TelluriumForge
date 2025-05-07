@@ -1,6 +1,8 @@
 package com.mikitellurium.telluriumforge;
 
+import com.mikitellurium.telluriumforge.example.ExampleConfig;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,6 +13,9 @@ public class TelluriumForge implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
+			ExampleConfig.buildConfig();
+		}
 	}
 
 	public static String modId() {
@@ -20,5 +25,4 @@ public class TelluriumForge implements ModInitializer {
 	public static Logger logger() {
 		return LOGGER;
 	}
-
 }

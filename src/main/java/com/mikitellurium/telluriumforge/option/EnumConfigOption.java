@@ -33,7 +33,7 @@ public class EnumConfigOption<E extends Enum<E>> extends ConfigOption<E> {
      */
     public EnumConfigOption(Identifier identifier, EnumConfigEntry<E> config) {
         super(identifier, config);
-        this.clazz = config.getEnumClass();
+        this.clazz = config.getType();
     }
 
     /**
