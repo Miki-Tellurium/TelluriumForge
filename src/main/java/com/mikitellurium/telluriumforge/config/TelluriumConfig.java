@@ -165,8 +165,8 @@ public final class TelluriumConfig {
     /**
      * Reads an entry from the config file and load its value
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    private void parseConfigEntry(String string, int line) {
+    @SuppressWarnings("unchecked")
+    private <T> void parseConfigEntry(String string, int line) {
         if (!isValueLine(string)) return;
 
         String[] entryParts = string.split("=", 2);
@@ -174,15 +174,16 @@ public final class TelluriumConfig {
             logger.error("Unknown entry found: \"{}\" in config file \"{}\" at line {}.", entryParts[0], this.getConfigFilePath(), line);
             return;
         }
-        IConfigEntry configEntry = this.getEntry(entryParts[0]);
+        IConfigEntry<T> configEntry = (IConfigEntry<T>) this.getEntry(entryParts[0]);
         String valueString = entryParts[1];
         if (configEntry == null) {
             logger.error("Unknown entry found: \"{}\" in config file \"{}\" at line {}.", entryParts[0], this.getConfigFilePath(), line);
             return;
         }
         try {
-            configEntry.set(configEntry.readValue(valueString));
-        } catch (IllegalArgumentException | ClassCastException e) {
+            T value = configEntry.deserialize(valueString);
+            configEntry.set(value);
+        } catch (IllegalArgumentException e) {
             configEntry.set(configEntry.getDefault());
             logger.error("Unsupported value type for entry \"{}\". Loaded default value.", configEntry.getKey(), e);
         }
@@ -243,13 +244,20 @@ public final class TelluriumConfig {
         }
 
         /**
+         * Adds and returns the passed config entry
+         */
+        public <T, E extends IConfigEntry<T>> E define(E configEntry) {
+            entries.add(configEntry);
+            this.buildEntry(configEntry);
+            return configEntry;
+        }
+
+        /**
          * Makes an entry that holds a boolean value.
          */
         public BooleanConfigEntry define(String key, boolean defaultValue) {
             BooleanConfigEntry newEntry = new BooleanConfigEntry(parent, key, defaultValue);
-            entries.add(newEntry);
-            this.buildEntry(newEntry);
-            return newEntry;
+            return this.define(newEntry);
         }
 
         /**
@@ -257,9 +265,7 @@ public final class TelluriumConfig {
          */
         public NumberConfigEntry<Integer> define(String key, int defaultValue) {
             NumberConfigEntry<Integer> newEntry = new NumberConfigEntry<>(parent, Integer.class, key, defaultValue);
-            entries.add(newEntry);
-            this.buildEntry(newEntry);
-            return newEntry;
+            return this.define(newEntry);
         }
 
         /**
@@ -269,9 +275,7 @@ public final class TelluriumConfig {
          */
         public RangedConfigEntry<Integer> defineInRange(String key, int defaultValue, int minValue, int maxValue) {
             RangedConfigEntry<Integer> newEntry = new RangedConfigEntry<>(parent, Integer.class, key, defaultValue, minValue, maxValue);
-            entries.add(newEntry);
-            this.buildEntry(newEntry);
-            return newEntry;
+            return this.define(newEntry);
         }
 
         /**
@@ -279,9 +283,7 @@ public final class TelluriumConfig {
          */
         public NumberConfigEntry<Double> define(String key, double defaultValue) {
             NumberConfigEntry<Double> newEntry = new NumberConfigEntry<>(parent, Double.class, key, defaultValue);
-            entries.add(newEntry);
-            this.buildEntry(newEntry);
-            return newEntry;
+            return this.define(newEntry);
         }
 
         /**
@@ -291,9 +293,7 @@ public final class TelluriumConfig {
          */
         public RangedConfigEntry<Double> defineInRange(String key, double defaultValue, double minValue, double maxValue) {
             RangedConfigEntry<Double> newEntry = new RangedConfigEntry<>(parent, Double.class, key, defaultValue, minValue, maxValue);
-            entries.add(newEntry);
-            this.buildEntry(newEntry);
-            return newEntry;
+            return this.define(newEntry);
         }
 
         /**
@@ -301,9 +301,7 @@ public final class TelluriumConfig {
          */
         public NumberConfigEntry<Long> define(String key, long defaultValue) {
             NumberConfigEntry<Long> newEntry = new NumberConfigEntry<>(parent, Long.class, key, defaultValue);
-            entries.add(newEntry);
-            this.buildEntry(newEntry);
-            return newEntry;
+            return this.define(newEntry);
         }
 
         /**
@@ -313,9 +311,7 @@ public final class TelluriumConfig {
          */
         public RangedConfigEntry<Long> defineInRange(String key, long defaultValue, long minValue, long maxValue) {
             RangedConfigEntry<Long> newEntry = new RangedConfigEntry<>(parent, Long.class, key, defaultValue, minValue, maxValue);
-            entries.add(newEntry);
-            this.buildEntry(newEntry);
-            return newEntry;
+            return this.define(newEntry);
         }
 
         /**
@@ -323,9 +319,7 @@ public final class TelluriumConfig {
          */
         public StringConfigEntry define(String key, String defaultValue) {
             StringConfigEntry newEntry = new StringConfigEntry(parent, key, defaultValue);
-            entries.add(newEntry);
-            this.buildEntry(newEntry);
-            return newEntry;
+            return this.define(newEntry);
         }
 
         /**
@@ -333,9 +327,7 @@ public final class TelluriumConfig {
          */
         public <E extends Enum<E>> EnumConfigEntry<E> define(String key, E defaultValue) {
             EnumConfigEntry<E> newEntry = new EnumConfigEntry<>(parent, defaultValue.getDeclaringClass(), key, defaultValue);
-            entries.add(newEntry);
-            this.buildEntry(newEntry);
-            return newEntry;
+            return this.define(newEntry);
         }
 
         /**
@@ -350,7 +342,6 @@ public final class TelluriumConfig {
             }
             this.context.clear();
         }
-
     }
 
     /**
