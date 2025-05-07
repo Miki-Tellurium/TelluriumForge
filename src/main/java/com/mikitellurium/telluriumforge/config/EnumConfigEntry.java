@@ -2,8 +2,6 @@ package com.mikitellurium.telluriumforge.config;
 
 import com.mikitellurium.telluriumforge.config.serializer.EntryWriter;
 
-import java.util.List;
-
 public class EnumConfigEntry<E extends Enum<E>> extends ConfigEntry<E> {
     protected EnumConfigEntry(TelluriumConfig parent, Class<E> type, String key, E defaultValue) {
         super(parent, type, key, defaultValue);
@@ -11,7 +9,7 @@ public class EnumConfigEntry<E extends Enum<E>> extends ConfigEntry<E> {
 
     @Override
     public String serialize(E value) {
-        return value.toString();
+        return value.name();
     }
 
     @Override
@@ -23,9 +21,9 @@ public class EnumConfigEntry<E extends Enum<E>> extends ConfigEntry<E> {
     public void writeEntry(EntryWriter writer) {
         writeComments(writer, this.getComments());
         writer.write("# Options: ");
-        Enum<?>[] constants = this.getType().getEnumConstants();
-        for (Enum<?> constant : constants) {
-            writer.write(constant.toString());
+        E[] constants = this.getType().getEnumConstants();
+        for (E constant : constants) {
+            writer.write(this.serialize(constant));
             if (!constants[constants.length - 1].equals(constant)) {
                 writer.write(", ");
             } else {
