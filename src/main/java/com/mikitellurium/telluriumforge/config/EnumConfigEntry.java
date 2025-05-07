@@ -10,23 +10,18 @@ public class EnumConfigEntry<E extends Enum<E>> extends ConfigEntry<E> {
     }
 
     @Override
-    public String writeValue(E value) {
+    public String serialize(E value) {
         return value.toString();
     }
 
     @Override
-    public E readValue(String string) {
+    public E deserialize(String string) {
         return E.valueOf(this.getType(), string);
     }
 
     @Override
     public void writeEntry(EntryWriter writer) {
-        List<String> comments = this.getComments();
-        if (!comments.isEmpty()) {
-            for (String c : comments) {
-                writer.writeComment(c);
-            }
-        }
+        writeComments(writer, this.getComments());
         writer.write("# Options: ");
         Enum<?>[] constants = this.getType().getEnumConstants();
         for (Enum<?> constant : constants) {
@@ -37,7 +32,7 @@ public class EnumConfigEntry<E extends Enum<E>> extends ConfigEntry<E> {
                 writer.write(System.lineSeparator());
             }
         }
-        writer.writeComment("Default = " + this.writeValue(this.getDefault()));
-        writer.writeLine(this.getKey() + "=" + this.writeValue(this.get()));
+        writer.writeComment("Default = " + this.serialize(this.getDefault()));
+        writer.writeLine(this.getKey() + "=" + this.serialize(this.get()));
     }
 }

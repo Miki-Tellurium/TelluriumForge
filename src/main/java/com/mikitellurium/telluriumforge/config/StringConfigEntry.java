@@ -6,12 +6,12 @@ public class StringConfigEntry extends ConfigEntry<String> {
     }
 
     @Override
-    public String writeValue(String value) {
+    public String serialize(String value) {
         return value;
     }
 
     @Override
-    public String readValue(String string) {
+    public String deserialize(String string) {
         return string;
     }
 }

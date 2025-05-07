@@ -6,12 +6,12 @@ public class BooleanConfigEntry extends ConfigEntry<Boolean> {
     }
 
     @Override
-    public String writeValue(Boolean value) {
+    public String serialize(Boolean value) {
         return String.valueOf(value);
     }
 
     @Override
-    public Boolean readValue(String string) {
+    public Boolean deserialize(String string) {
         return Boolean.parseBoolean(string);
     }
 }

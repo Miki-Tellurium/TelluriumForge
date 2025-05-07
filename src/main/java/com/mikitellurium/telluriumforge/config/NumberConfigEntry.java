@@ -6,12 +6,12 @@ public class NumberConfigEntry<N extends Number> extends ConfigEntry<N> {
     }
 
     @Override
-    public String writeValue(N value) {
+    public String serialize(N value) {
         return String.valueOf(value);
     }
 
     @Override
-    public N readValue(String string) {
+    public N deserialize(String string) {
         Class<N> type = this.getType();
         if (type == Integer.class) {
             return type.cast(Integer.parseInt(string));

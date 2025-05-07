@@ -62,12 +62,12 @@ public interface IConfigEntry<T> {
      * @return return a string representation of the passed
      * value used for writing the config file
      */
-    String writeValue(T value);
+    String serialize(T value);
 
     /**
      * Parse the value from the string read from the config file
      */
-    T readValue(String string);
+    T deserialize(String string);
 
     void writeEntry(EntryWriter writer);
 }

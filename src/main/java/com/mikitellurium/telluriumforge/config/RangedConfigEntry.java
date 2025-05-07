@@ -64,16 +64,11 @@ public class RangedConfigEntry<N extends Number & Comparable<N>> extends NumberC
 
     @Override
     public void writeEntry(EntryWriter writer) {
-        List<String> comments = this.getComments();
-        if (!comments.isEmpty()) {
-            for (String c : comments) {
-                writer.writeComment(c);
-            }
-        }
+        writeComments(writer, this.getComments());
         N minValue = this.getMinValue();
         N maxValue = this.getMaxValue();
-        writer.writeComment("Range: min=" + this.writeValue(minValue) + ", max=" + this.writeValue(maxValue));
-        writer.writeComment("Default = " + this.writeValue(this.getDefault()));
-        writer.writeLine(this.getKey() + "=" + this.writeValue(this.get()));
+        writer.writeComment("Range: min=" + this.serialize(minValue) + ", max=" + this.serialize(maxValue));
+        writer.writeComment("Default = " + this.serialize(this.getDefault()));
+        writer.writeLine(this.getKey() + "=" + this.serialize(this.get()));
     }
 }

@@ -64,13 +64,16 @@ public abstract class ConfigEntry<T> implements IConfigEntry<T> {
 
     @Override
     public void writeEntry(EntryWriter writer) {
-        List<String> comments = this.getComments();
+        writeComments(writer, this.getComments());
+        writer.writeComment("Default = " + this.serialize(this.getDefault()));
+        writer.writeLine(this.getKey() + "=" + this.serialize(this.get()));
+    }
+
+    protected void writeComments(EntryWriter writer, List<String> comments) {
         if (!comments.isEmpty()) {
             for (String c : comments) {
                 writer.writeComment(c);
             }
         }
-        writer.writeComment("Default = " + this.writeValue(this.getDefault()));
-        writer.writeLine(this.getKey() + "=" + this.writeValue(this.get()));
     }
 }
