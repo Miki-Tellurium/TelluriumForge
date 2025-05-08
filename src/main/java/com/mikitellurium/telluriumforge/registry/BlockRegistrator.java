@@ -10,10 +10,9 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import java.util.function.Supplier;
 
 public record BlockRegistrator(DeferredRegister.Blocks registry, DeferredRegister.Items items) implements RegistryHelper<Block> {
-
     @Override
     public <S extends Block> DeferredBlock<S> register(String id, Supplier<S> block) {
-        return registry.register(id, block);
+        return registry.registerBlock(id, (properties) -> block.get());
     }
 
     public <S extends Block> DeferredBlock<S> registerWithItem(String id, Supplier<S> block) {
@@ -21,7 +20,7 @@ public record BlockRegistrator(DeferredRegister.Blocks registry, DeferredRegiste
     }
 
     public <S extends Block> DeferredBlock<S> registerWithItem(String id, Supplier<S> block, Item.Properties itemProperties) {
-        DeferredBlock<S> blockObj = registry.register(id, block);
+        DeferredBlock<S> blockObj = registry.registerBlock(id, (properties) -> block.get());
         registerBlockItem(id, blockObj, itemProperties);
         return blockObj;
     }
@@ -40,5 +39,4 @@ public record BlockRegistrator(DeferredRegister.Blocks registry, DeferredRegiste
     public static BlockRegistrator makeRegistrator(RegistryHelper<Item> items, String modId) {
         return new BlockRegistrator(DeferredRegister.createBlocks(modId), (DeferredRegister.Items) items.registry());
     }
-
 }
