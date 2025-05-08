@@ -30,7 +30,7 @@ public record BlockRegistrator(DeferredRegister.Blocks registry, DeferredRegiste
     }
 
     public <S extends Block> DeferredItem<BlockItem> registerBlockItem(String id, DeferredBlock<S> block, Item.Properties itemProperties) {
-        return items.register(id, () -> new BlockItem(block.get(), new Item.Properties()));
+        return items.register(id, () -> new BlockItem(block.get(), itemProperties));
     }
 
     /**
