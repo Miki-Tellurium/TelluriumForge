@@ -1,6 +1,6 @@
 package com.mikitellurium.telluriumforge.config;
 
-import com.mikitellurium.telluriumforge.config.serializer.EntryWriter;
+import com.mikitellurium.telluriumforge.config.writer.EntryWriter;
 
 public class EnumConfigEntry<E extends Enum<E>> extends ConfigEntry<E> {
     protected EnumConfigEntry(TelluriumConfig parent, Class<E> type, String key, E defaultValue) {

@@ -1,4 +1,4 @@
-package com.mikitellurium.telluriumforge.config.serializer;
+package com.mikitellurium.telluriumforge.config.writer;
 
 import org.slf4j.Logger;
 
