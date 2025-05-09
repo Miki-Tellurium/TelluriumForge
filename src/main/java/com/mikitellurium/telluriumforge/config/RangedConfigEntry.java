@@ -1,8 +1,6 @@
 package com.mikitellurium.telluriumforge.config;
 
-import com.mikitellurium.telluriumforge.config.serializer.EntryWriter;
-
-import java.util.List;
+import com.mikitellurium.telluriumforge.config.writer.EntryWriter;
 
 /**
  * An object used to save a config value that has to be

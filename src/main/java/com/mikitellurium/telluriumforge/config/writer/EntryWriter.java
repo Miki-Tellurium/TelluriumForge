@@ -1,4 +1,4 @@
-package com.mikitellurium.telluriumforge.config.serializer;
+package com.mikitellurium.telluriumforge.config.writer;
 
 public interface EntryWriter {
     void write(String s);

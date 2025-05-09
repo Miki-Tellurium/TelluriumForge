@@ -1,8 +1,11 @@
 package com.mikitellurium.telluriumforge.networking;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -13,6 +16,16 @@ import net.minecraft.util.math.BlockPos;
  * sending payloads.
  */
 public class NetworkingHelper {
+
+    public static <T extends CustomPayload> void registerS2C(CustomPayload.Id<T> type, PacketCodec<? super PacketByteBuf, T> codec, ClientPlayNetworking.PlayPayloadHandler<T> handler) {
+        PayloadTypeRegistry.playS2C().register(type, codec);
+        ClientPlayNetworking.registerGlobalReceiver(type, handler);
+    }
+
+    public static <T extends CustomPayload> void registerC2S(CustomPayload.Id<T> type, PacketCodec<? super PacketByteBuf, T> codec, ServerPlayNetworking.PlayPayloadHandler<T> handler) {
+        PayloadTypeRegistry.playC2S().register(type, codec);
+        ServerPlayNetworking.registerGlobalReceiver(type, handler);
+    }
 
     /**
      * Sends a payload to a specific player.

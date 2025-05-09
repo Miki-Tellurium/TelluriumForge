@@ -1,6 +1,6 @@
 package com.mikitellurium.telluriumforge.config;
 
-import com.mikitellurium.telluriumforge.config.serializer.EntryWriterImpl;
+import com.mikitellurium.telluriumforge.config.writer.EntryWriterImpl;
 import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

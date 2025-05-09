@@ -1,6 +1,6 @@
 package com.mikitellurium.telluriumforge.config;
 
-import com.mikitellurium.telluriumforge.config.serializer.EntryWriter;
+import com.mikitellurium.telluriumforge.config.writer.EntryWriter;
 
 import java.util.ArrayList;
 import java.util.List;
