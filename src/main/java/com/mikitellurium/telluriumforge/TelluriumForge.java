@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 
 @Mod("telluriumforge")
 public class TelluriumForge {
-
 	private static final String MOD_ID = "telluriumforge";
     private static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
@@ -21,5 +20,4 @@ public class TelluriumForge {
 	public static Logger logger() {
 		return LOGGER;
 	}
-
 }

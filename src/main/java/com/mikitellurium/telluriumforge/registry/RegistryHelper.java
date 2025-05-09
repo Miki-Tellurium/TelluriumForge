@@ -9,7 +9,6 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 public interface RegistryHelper<T> {
-
     <S extends T> DeferredHolder<T, S> register(String id, Supplier<S> object);
 
     DeferredRegister<T> registry();
@@ -18,5 +17,4 @@ public interface RegistryHelper<T> {
         IEventBus modEventBus = Objects.requireNonNull(ModLoadingContext.get().getActiveContainer().getEventBus());
         this.registry().register(modEventBus);
     }
-
 }

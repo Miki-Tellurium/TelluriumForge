@@ -3,7 +3,6 @@ package com.mikitellurium.telluriumforge.energy;
 import net.neoforged.neoforge.energy.EnergyStorage;
 
 public abstract class SimpleEnergyStorage extends EnergyStorage {
-
     public SimpleEnergyStorage(int capacity) {
         super(capacity);
     }
@@ -45,5 +44,4 @@ public abstract class SimpleEnergyStorage extends EnergyStorage {
     }
 
     public abstract void onEnergyChanged();
-
 }

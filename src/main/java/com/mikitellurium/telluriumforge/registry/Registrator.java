@@ -8,7 +8,6 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import java.util.function.Supplier;
 
 public record Registrator<T>(DeferredRegister<T> registry) implements RegistryHelper<T> {
-
     @Override
     public <S extends T> DeferredHolder<T, S> register(String id, Supplier<S> object) {
         return registry.register(id, object);
@@ -20,5 +19,4 @@ public record Registrator<T>(DeferredRegister<T> registry) implements RegistryHe
     public static <T> RegistryHelper<T> makeRegistrator(ResourceKey<Registry<T>> resourceKey, String modId) {
         return new Registrator<>(DeferredRegister.create(resourceKey, modId));
     }
-
 }

@@ -3,7 +3,6 @@ package com.mikitellurium.telluriumforge.registry;
 import net.minecraft.resources.ResourceLocation;
 
 public interface ResourceLocationProvider {
-
     /**
      * @return The mod id
      */
@@ -22,5 +21,4 @@ public interface ResourceLocationProvider {
     default ResourceLocation ofMc(String path) {
         return ResourceLocation.withDefaultNamespace(path);
     }
-
 }
