@@ -3,7 +3,6 @@ package com.mikitellurium.telluriumforge.energy;
 import net.minecraftforge.energy.EnergyStorage;
 
 public abstract class SimpleEnergyStorage extends EnergyStorage {
-
     public SimpleEnergyStorage(int capacity) {
         super(capacity);
     }
@@ -41,9 +40,8 @@ public abstract class SimpleEnergyStorage extends EnergyStorage {
     }
 
     public void setEnergy(int energy) {
-        this.energy = energy;
+        this.energy = Math.max(0, Math.min(energy, capacity));
     }
 
     public abstract void onEnergyChanged();
-
 }
