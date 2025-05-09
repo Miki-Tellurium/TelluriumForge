@@ -16,7 +16,7 @@ public record Registrator<T>(DeferredRegister<T> registry) implements RegistryHe
     /**
      * Create a new registrator using the provided {@link ResourceKey} and mod id
      */
-    public static <T> RegistryHelper<T> makeRegistrator(ResourceKey<Registry<T>> resourceKey, String modId) {
+    public static <T> Registrator<T> makeRegistrator(ResourceKey<Registry<T>> resourceKey, String modId) {
         return new Registrator<>(DeferredRegister.create(resourceKey, modId));
     }
 }
