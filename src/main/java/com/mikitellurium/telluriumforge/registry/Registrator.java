@@ -9,7 +9,6 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.function.Supplier;
 
 public record Registrator<T>(DeferredRegister<T> registry) implements RegistryHelper<T> {
-
     @Override
     public <S extends T> RegistryObject<S> register(String id, Supplier<S> object) {
         return registry.register(id, object);
@@ -28,5 +27,4 @@ public record Registrator<T>(DeferredRegister<T> registry) implements RegistryHe
     public static <T> Registrator<T> makeRegistrator(IForgeRegistry<T> registry, String modId) {
         return makeRegistrator(registry.getRegistryKey(), modId);
     }
-
 }
