@@ -1,9 +1,18 @@
 package com.mikitellurium.telluriumforge.networking.packet;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.util.math.BlockPos;
 
 public class DoubleSyncPacket extends BlockPosSyncPacket {
     private double value;
+
+    public DoubleSyncPacket() {
+    }
+
+    public DoubleSyncPacket(BlockPos pos, double value) {
+        super(pos);
+        this.value = value;
+    }
 
     @Override
     public void fromBytes(ByteBuf buf) {
