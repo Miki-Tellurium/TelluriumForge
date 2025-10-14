@@ -16,12 +16,12 @@ public abstract class BlockPosSyncPacket implements IMessage {
 
     @Override
     public void fromBytes(ByteBuf buf) {
-        this.blockPos = ((PacketBuffer)buf).readBlockPos();
+        this.blockPos = new PacketBuffer(buf).readBlockPos();
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
-        ((PacketBuffer)buf).writeBlockPos(blockPos);
+        new PacketBuffer(buf).writeBlockPos(blockPos);
     }
 
     public BlockPos getBlockPos() {
