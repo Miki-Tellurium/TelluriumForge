@@ -26,6 +26,10 @@ java {
     withSourcesJar()
 }
 
+jar {
+    exclude 'com/mikitellurium/telluriumforge/test/**'
+}
+
 repositories {
     maven {
         url = "https://maven.minecraftforge.net/"
