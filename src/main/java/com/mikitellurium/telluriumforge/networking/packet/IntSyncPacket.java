@@ -3,7 +3,7 @@ package com.mikitellurium.telluriumforge.networking.packet;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.util.math.BlockPos;
 
-public class IntSyncPacket extends BlockPosSyncPacket {
+public abstract class IntSyncPacket extends BlockPosSyncPacket {
     private int value;
 
     public IntSyncPacket() {
