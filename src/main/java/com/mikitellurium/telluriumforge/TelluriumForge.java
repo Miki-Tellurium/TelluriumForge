@@ -17,13 +17,7 @@ public class TelluriumForge {
         return new TelluriumForge();
     }
 
-    public TelluriumForge() {
-        RegistrationTest.register();
-    }
-
-//    @EventHandler
-//    public void init(FMLInitializationEvent event) {
-//    }
+    private TelluriumForge() {}
 
     public static String modId() {
         return MOD_ID;
