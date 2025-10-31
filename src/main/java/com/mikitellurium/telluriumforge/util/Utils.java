@@ -1,9 +1,10 @@
 package com.mikitellurium.telluriumforge.util;
 
-import java.util.function.Function;
+import java.util.function.Consumer;
 
 public class Utils {
-    public static <T> T make(T obj, Function<T, T> function) {
-        return function.apply(obj);
+    public static <T> T make(T obj, Consumer<T> consumer) {
+        consumer.accept(obj);
+        return obj;
     }
 }
