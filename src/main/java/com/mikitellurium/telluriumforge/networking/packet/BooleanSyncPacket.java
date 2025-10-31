@@ -3,26 +3,22 @@ package com.mikitellurium.telluriumforge.networking.packet;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.util.math.BlockPos;
 
-public abstract class BooleanSyncPacket extends BlockPosSyncPacket {
-    private boolean value;
+public abstract class BooleanSyncPacket extends TileDataSyncPacket<Boolean> {
+    public BooleanSyncPacket() {}
 
-    public BooleanSyncPacket() {
-    }
-
-    public BooleanSyncPacket(BlockPos pos, boolean value) {
-        super(pos);
-        this.value = value;
+    protected BooleanSyncPacket(BlockPos pos, Boolean value) {
+        super(pos, value);
     }
 
     @Override
     public void fromBytes(ByteBuf buf) {
         super.fromBytes(buf);
-        this.value = buf.readBoolean();
+        this.setValue(buf.readBoolean());
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
         super.toBytes(buf);
-        buf.writeBoolean(value);
+        buf.writeBoolean(this.getValue());
     }
 }

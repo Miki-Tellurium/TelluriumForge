@@ -3,26 +3,22 @@ package com.mikitellurium.telluriumforge.networking.packet;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.util.math.BlockPos;
 
-public abstract class LongSyncPacket extends BlockPosSyncPacket {
-    private long value;
+public abstract class LongSyncPacket extends TileDataSyncPacket<Long> {
+    public LongSyncPacket() {}
 
-    public LongSyncPacket() {
-    }
-
-    public LongSyncPacket(BlockPos pos, long value) {
-        super(pos);
-        this.value = value;
+    protected LongSyncPacket(BlockPos pos, Long value) {
+        super(pos, value);
     }
 
     @Override
     public void fromBytes(ByteBuf buf) {
         super.fromBytes(buf);
-        this.value = buf.readLong();
+        this.setValue(buf.readLong());
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
         super.toBytes(buf);
-        buf.writeLong(value);
+        buf.writeLong(this.getValue());
     }
 }
